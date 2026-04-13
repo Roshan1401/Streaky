@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DonutChart from "./DonutChart";
+import BarChart2 from "./BarChart";
 
 type LanguageDatum = { label: string; hours: number };
 type ChartType = "Donut" | "Bar";
@@ -12,6 +13,16 @@ export default function LangChart() {
     { label: "TypeScript", hours: 60 },
     { label: "Go", hours: 40 },
     { label: "Rust", hours: 20 },
+    { label: "C++", hours: 10 },
+    { label: "Java", hours: 5 },
+    { label: "Ruby", hours: 2 },
+    { label: "PHP", hours: 1 },
+    { label: "PHP", hours: 1 },
+    { label: "PHP", hours: 1 },
+    { label: "PHP", hours: 1 },
+    { label: "PHP", hours: 1 },
+
+
   ]
 
   const getColor = (index: number) => {
@@ -64,15 +75,13 @@ export default function LangChart() {
         </div>
       </div>
 
-      <div className="flex px-10">
+      <div className="flex pt-10 pb-5 px-10">
 
         {
           activeTab === "Donut" ? (
             <DonutChart languages={languages} getColor={getColor} />
           ) : (
-            <div className="flex items-center justify-center w-full h-[350px] text-(--color-text-secondary)">
-              Bar Chart Coming Soon!
-            </div>
+            <BarChart2 languages={languages} getColor={getColor} />
           )
         }
       </div>
