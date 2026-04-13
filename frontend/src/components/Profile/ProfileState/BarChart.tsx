@@ -1,4 +1,3 @@
-import React from "react";
 import { BarChart, Bar, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 interface BarChartProps {
