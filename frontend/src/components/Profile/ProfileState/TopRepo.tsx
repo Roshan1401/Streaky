@@ -12,7 +12,7 @@ interface Repo {
 
 const demoRepos: Repo[] = [
   {
-    name: "DevSteak",
+    name: "Devsteak",
     stars: 42,
     language: "TypeScript",
     description: "Developer contribution tracking platform",
