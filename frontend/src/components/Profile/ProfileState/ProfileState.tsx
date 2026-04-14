@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProfileStateRow from "./ProfileStateRow";
 import TopRepo from "./TopRepo";
+import LangChart from "./LangChart";
 
 type Tab = "Lang Chart" | "Top Repo";
 
@@ -8,19 +9,31 @@ interface Props {}
 
 function ProfileState(props: Props) {
   const {} = props;
-  const [activeTab, setActiveTab] = useState<Tab>("Top Repo");
+  const [activeTab, setActiveTab] = useState<Tab>("Lang Chart");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleTabChange = (tab: Tab) => {
+    if (tab === activeTab) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveTab(tab);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 100);
+  };
 
   return (
     <div className="px-10">
       <div className="my-8">
-        <ProfileStateRow activeTab={activeTab} onTabChange={setActiveTab} />
+        <ProfileStateRow activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
-      <div>
-        {activeTab === "Top Repo" ? (
-          <TopRepo repoName="DevSteak" stars={42} language="TypeScript" />
-        ) : (
-          <div>{/* <LangChart /> */}</div>
-        )}
+      <div
+        className={`transition-all duration-200 my-10 h-130 flex w-full items-center justify-center ease-out ${
+          isTransitioning
+            ? "opacity-0 translate-y-2"
+            : "opacity-100 translate-y-0"
+        }`}
+      >
+        {activeTab === "Lang Chart" ? <LangChart /> : <TopRepo />}
       </div>
     </div>
   );
