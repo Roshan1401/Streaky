@@ -1,11 +1,24 @@
 import { useState } from "react";
 import banner from "../../assets/banner.jpg";
 import profilImg from "../../assets/image.png";
-import { SocialLinkModal, platforms, type SocialLink } from "../leaderboard/SocialLinkModal";
+import {
+  SocialLinkModal,
+  platforms,
+  type SocialLink,
+} from "../Modals/SocialLinkModal";
+import EditModal  from "../Modals/EditModal";
 
 interface Props {}
 
-function SocialLinkButton({ svg, label, url }: { svg: React.ReactNode; label: string; url?: string }) {
+function SocialLinkButton({
+  svg,
+  label,
+  url,
+}: {
+  svg: React.ReactNode;
+  label: string;
+  url?: string;
+}) {
   const Component = url ? "a" : "button";
   return (
     <Component
@@ -20,7 +33,7 @@ function SocialLinkButton({ svg, label, url }: { svg: React.ReactNode; label: st
   );
 }
 
-function ProfileHeader(props:Props) {
+function ProfileHeader(props: Props) {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([
     {
       platform: "github",
@@ -30,6 +43,7 @@ function ProfileHeader(props:Props) {
     },
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setzIsEditModalOpen] = useState(false);
 
   const handleAddLink = (link: SocialLink) => {
     setSocialLinks([...socialLinks, link]);
@@ -42,6 +56,11 @@ function ProfileHeader(props:Props) {
         onClose={() => setIsModalOpen(false)}
         onAddLink={handleAddLink}
         existingPlatforms={socialLinks.map((l) => l.platform)}
+      />
+
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setzIsEditModalOpen(false)}
       />
 
       <div className="relative ">
@@ -73,7 +92,12 @@ function ProfileHeader(props:Props) {
           </span>
           <div className="mt-7 flex items-center gap-5">
             {socialLinks.map((link) => (
-              <SocialLinkButton key={link.platform} svg={link.svg} label={link.label} url={link.url} />
+              <SocialLinkButton
+                key={link.platform}
+                svg={link.svg}
+                label={link.label}
+                url={link.url}
+              />
             ))}
 
             <button
@@ -99,7 +123,10 @@ function ProfileHeader(props:Props) {
           </div>
         </div>
         <div className="absolute top-29 right-5 p-4">
-          <button className="text-white bg-orange-500 shadow-2xl w-fit flex gap-3 items-center px-4 py-2 cursor-pointer rounded-lg hover:scale-105 transition-all duration-100  border border-(--color-border-secondary) ">
+          <button
+            onClick={() => setzIsEditModalOpen(true)}
+            className="text-white bg-orange-500 shadow-2xl w-fit flex gap-3 items-center px-4 py-2 cursor-pointer rounded-lg hover:scale-105 transition-all duration-100  border border-(--color-border-secondary) "
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
