@@ -30,7 +30,7 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
                 type="button"
                 onClick={() => setActiveItem(item)}
                 className={[
-                  "rounded-md border-b-2 cursor-pointer px-3 py-2 text-md text-left font-medium transition-colors",
+                  "rounded-md border-b-2 cursor-pointer px-3 py-2 text-lg text-left font-medium transition-colors",
                   isActive
                     ? "border-orange-500 bg-orange-500/20 text-(--color-text-primary)"
                     : "border-transparent text-(--color-text-secondary) hover:bg-orange-500/15 hover:text-(--color-text-primary)",
