@@ -20,15 +20,15 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
 
   return (
     <div className="flex lg:min-h-screen">
-      <div className="fixed bottom-0 flex w-full justify-between border-t border-(--color-border) bg-(--color-bg-primary) py-2 lg:static lg:w-70 lg:flex-col lg:gap-6 lg:border-t-0 lg:border-r">
-        <div className="hidden items-center gap-3 border-b border-(--color-border) px-10 py-8 lg:flex">
+      <div className="fixed bottom-0 flex w-full justify-between border-t border-(--color-border) bg-(--color-bg-primary) py-2 lg:static lg:w-65 lg:flex-col lg:gap-6 lg:border-t-0 lg:border-r">
+        <div className="hidden items-center gap-3 border-b border-(--color-border) px-9 py-8 lg:flex">
           <span className="h-3 w-3 rounded-full bg-orange-500" />
           <h1 className="text-2xl font-bold tracking-tight text-(--color-text-primary)">
             Devsteak
           </h1>
         </div>
 
-        <nav className="flex w-full justify-center gap-6 md:justify-between md:px-6 lg:flex-col lg:gap-2 lg:px-8">
+        <nav className="flex w-full justify-center gap-6 md:justify-between md:px-6 lg:flex-col lg:gap-2">
           {navItems.map((item) => {
             const isActive = activeItem === item.name;
             const Icon = item.icon;
@@ -62,7 +62,7 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
           })}
         </nav>
 
-        <div className="flex-1 justify-end gap-4 lg:flex lg:flex-col lg:p-8">
+        <div className="flex-1 justify-end gap-4 lg:flex lg:flex-col lg:p-6">
           <div
             onClick={onThemeToggle}
             className="fixed top-2 right-4 cursor-pointer rounded-full border border-(--color-border-secondary) bg-(--color-bg-secondary) p-2 text-orange-500 transition-colors hover:bg-orange-500/10 lg:static lg:flex lg:justify-between lg:rounded-md"
