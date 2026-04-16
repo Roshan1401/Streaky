@@ -1,35 +1,16 @@
 import { useState } from "react";
-import { Trophy, Compass, Users, Rocket, User, Signal } from "lucide-react";
+import { Trophy, Compass, Users, Rocket, User } from "lucide-react";
 import profilImg from "../../assets/image.png";
+import { LeaderboardIcon, SignInIcon } from "../../assets/Icons/index";
+import { Sun, Moon } from "lucide-react";
 
 interface Props {
   onThemeToggle: () => void;
   isDarkTheme?: boolean;
 }
 
-function LeaderboardSvg() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      aria-hidden="true"
-      data-slot="icon"
-      className="h-5 w-5"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
-      ></path>
-    </svg>
-  );
-}
-
 const navItems = [
-  { name: "Leaderboard", icon: LeaderboardSvg },
+  { name: "Leaderboard", icon: LeaderboardIcon },
   { name: "Explore", icon: Compass },
   { name: "Rank", icon: Trophy },
   { name: "Community", icon: Users },
@@ -91,23 +72,9 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
             className="fixed top-2 right-4 cursor-pointer rounded-full border border-(--color-border-secondary) bg-(--color-bg-secondary) p-2 text-orange-500 transition-colors hover:bg-orange-500/10 lg:static lg:flex lg:justify-between lg:rounded-md"
           >
             {isDarkTheme ? (
-              <svg
-                className="h-5 w-5"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-              </svg>
+              <Moon className="h-5 w-5" />
             ) : (
-              <svg
-                className="h-5 w-5"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M12 2a1 1 0 011 1v3a1 1 0 11-2 0V3a1 1 0 011-1zM12 18a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zM4.22 4.22a1 1 0 011.414 0l2.121 2.121a1 1 0 11-1.414 1.414L4.22 5.636a1 1 0 010-1.414zM16.243 16.243a1 1 0 011.414 0l2.121 2.121a1 1 0 11-1.414 1.414l-2.121-2.121a1 1 0 010-1.414zM2 12a1 1 0 011-1h3a1 1 0 110 2H3a1 1 0 01-1-1zM18 12a1 1 0 011-1h3a1 1 0 110 2h-3a1 1 0 01-1-1zM4.22 19.78a1 1 0 011.414-1.414l2.121 2.121a1 1 0 11-1.414 1.414L4.22 19.78zM16.243 7.757a1 1 0 011.414-1.414l2.121 2.121a1 1 0 11-1.414 1.414l-2.121-2.121zM12 7a5 5 0 100 10 5 5 0 000-10z" />
-              </svg>
+              <Sun className="h-5 w-5" />
             )}
             <button
               className={`relative hidden h-5 w-9 cursor-pointer items-center rounded-4xl lg:block ${isDarkTheme ? "bg-orange-500" : "bg-gray-400"}`}
@@ -118,14 +85,7 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
             </button>
           </div>
           <button className="hidden cursor-pointer items-center justify-center gap-2 rounded-md border border-orange-500/30 bg-(--color-bg-primary) px-3 py-2 text-sm font-bold text-orange-500 transition-colors hover:border-orange-500/60 active:border-orange-500 active:bg-orange-500/20 active:text-orange-100 lg:flex">
-            <svg
-              className="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
-            </svg>
+            <SignInIcon className="h-5 w-5" />
             <span>Sign In</span>
           </button>
           {/* <div className="flex  hidden lg:flex items-center  border border-(--color-border-secondary) dark:border-black hover:border-orange-500 gap-5 hover:bg-(--color-bg-secondary) cursor-pointer rounded-full p-2">

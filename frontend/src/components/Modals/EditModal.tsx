@@ -1,3 +1,4 @@
+import { Pencil, Plus } from "lucide-react";
 import { useState } from "react";
 interface EditModalProps {
   isOpen: boolean;
@@ -40,22 +41,9 @@ export default function EditModal({
           </h2>
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-full p-2 text-neutral-800 hover:bg-neutral-200 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="cursor-pointer rounded-full p-2 text-neutral-800 hover:bg-neutral-200 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-neutral-800 dark:hover:text-gray-200"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <Plus className="h-5 w-5 rotate-45" />
           </button>
         </div>
         <div className="space-y-4">

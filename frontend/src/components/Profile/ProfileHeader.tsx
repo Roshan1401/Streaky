@@ -7,6 +7,7 @@ import {
   type SocialLink,
 } from "../Modals/SocialLinkModal";
 import EditModal from "../Modals/EditModal";
+import { Pencil, Plus } from "lucide-react";
 
 interface Props {}
 
@@ -104,21 +105,7 @@ function ProfileHeader(props: Props) {
               onClick={() => setIsModalOpen(true)}
               className="flex cursor-pointer items-center justify-center rounded-full border border-(--color-border-secondary) px-2 py-2 text-center text-3xl transition-all duration-100 hover:scale-115 hover:border-orange-400"
             >
-              <svg
-                className="h-6 w-6 text-gray-800 dark:text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 12h14m-7 7V5"
-                />
-              </svg>
+              <Plus className="h-6 w-6 text-(--color-text-primary)" />
             </button>
           </div>
         </div>
@@ -127,20 +114,7 @@ function ProfileHeader(props: Props) {
             onClick={() => setzIsEditModalOpen(true)}
             className="flex w-fit cursor-pointer items-center gap-3 rounded-lg border border-(--color-border-secondary) bg-orange-500 px-4 py-2 text-white shadow-2xl transition-all duration-100 hover:scale-105"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.1 2.1 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-              <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-            </svg>
+            <Pencil className="h-5 w-5" />
             <span className="text-xl font-bold">Edit</span>
           </button>
         </div>

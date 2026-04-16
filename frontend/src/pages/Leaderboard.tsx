@@ -30,6 +30,7 @@ const sampleData: LeaderboardUser[] = [
     languages: [
       { name: "Python", color: "#3572A5" },
       { name: "Go", color: "#00ADD8" },
+      { name: "Go", color: "#00ADD8" },
     ],
   },
   {
@@ -189,13 +190,6 @@ function Leaderboard() {
     return { bg: "bg-neutral-800", text: "text-neutral-400" };
   };
 
-  const getStreakColor = (streak: number) => {
-    if (streak >= 15)
-      return { bg: "bg-orange-500/20", text: "text-orange-500" };
-    if (streak >= 7) return { bg: "bg-red-500/20", text: "text-red-500" };
-    return { bg: "bg-neutral-500/20", text: "text-neutral-400" };
-  };
-
   return (
     <div className="px-15 py-5">
       <div className="my-3 flex items-center justify-center">
@@ -228,23 +222,21 @@ function Leaderboard() {
             </div>
           </div>
           <div className="">
-            <div className="text-md sticky top-0 z-10 grid grid-cols-12 gap-4 bg-(--color-bg-secondary) px-6 py-4 font-semibold tracking-wide text-(--color-text-secondary)">
+            <div className="text-md sticky top-0 z-10 grid grid-cols-12 gap-4 bg-(--color-bg-secondary) px-8 py-4 font-semibold tracking-wide text-(--color-text-secondary)">
               <div className="col-span-1">Rank</div>
               <div className="col-span-4">Developer</div>
               <div className="col-span-3 text-center">Time Spent</div>
-              <div className="col-span-3 text-left">Top Languages</div>
-              <div className="col-span-1 text-center">Streak</div>
+              <div className="col-span-4 text-right">Top Languages</div>
             </div>
             <div className="space-y-1">
               {sampleData.map((user) => {
                 const badge = getRankBadge(user.rank);
-                const streakStyle = getStreakColor(user.streak);
                 return (
                   <div
                     key={user.rank}
                     className="border-t border-(--color-border)"
                   >
-                    <div className="grid cursor-pointer grid-cols-12 items-center gap-4 px-6 py-3 transition-colors hover:bg-(--color-bg-secondary)">
+                    <div className="grid cursor-pointer grid-cols-12 items-center gap-4 px-8 py-3 transition-colors hover:bg-(--color-bg-secondary)">
                       <div className="col-span-1 flex">
                         <span
                           className={`h-10 w-10 rounded-lg ${badge.bg} ${badge.text} flex items-center justify-center text-lg font-bold`}
@@ -256,14 +248,22 @@ function Leaderboard() {
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-base font-bold text-white">
                           {user.avatar}
                         </div>
-                        <span className="text-lg font-semibold text-(--color-text-primary)">
-                          {user.name}
-                        </span>
+                        <div>
+                          <span className="text-lg font-semibold text-(--color-text-primary)">
+                            {user.name}
+                          </span>
+                          <div>
+                            img
+                            <span className="text-sm text-(--color-text-secondary)">
+                              Roshan1401
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <div className="col-span-3 text-center font-mono text-base font-semibold text-(--color-text-primary)">
                         {user.timeSpent}
                       </div>
-                      <div className="col-span-3 flex gap-2">
+                      <div className="col-span-4 flex justify-end gap-2">
                         {user.languages.map((lang, i) => (
                           <span
                             key={i}
@@ -276,13 +276,6 @@ function Leaderboard() {
                             {lang.name}
                           </span>
                         ))}
-                      </div>
-                      <div className="col-span-1 flex justify-center">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-base font-bold ${streakStyle.bg} ${streakStyle.text}`}
-                        >
-                          {user.streak}🔥
-                        </span>
                       </div>
                     </div>
                   </div>
