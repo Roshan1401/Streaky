@@ -9,14 +9,16 @@ interface StatusItemProps {
 
 function StatusItem({ label, value, unit, icon }: StatusItemProps) {
   return (
-    <div className="flex justify-between rounded-xl border border-(--color-border-secondary) bg-white p-3 px-6 py-5 dark:bg-[#1b1718]/50">
+    <div className="flex justify-between rounded-xl border border-(--color-border-secondary) bg-white p-4 md:px-6 md:py-5 dark:bg-[#1b1718]/50">
       <div className="flex flex-col gap-1">
-        <p className="text-xl text-(--color-text-secondary)">{label}</p>
-        <div className="flex gap-1">
-          <span className="text-3xl font-bold text-(--color-text-primary)">
+        <p className="text-md text-(--color-text-secondary) lg:text-xl">
+          {label}
+        </p>
+        <div className="flex gap-1.5">
+          <span className="text-2xl font-bold text-(--color-text-primary) lg:text-3xl">
             {value}
           </span>
-          <span className="text-md flex items-end text-(--color-text-secondary)">
+          <span className="text-md flex items-end text-(--color-text-secondary) lg:text-xl">
             {unit}
           </span>
         </div>
@@ -113,7 +115,7 @@ function ChartIcon() {
 
 function Status() {
   return (
-    <div className="grid grid-cols-4 gap-5 px-10">
+    <div className="grid grid-cols-1 gap-5 px-7 md:grid-cols-2 md:px-10 lg:grid-cols-4">
       <StatusItem label="Steak" value={4} unit="days" icon={<FlameIcon />} />
       <StatusItem
         label="Total Hours"

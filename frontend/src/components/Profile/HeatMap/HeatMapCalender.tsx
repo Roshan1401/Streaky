@@ -67,24 +67,24 @@ function HeatMapCalender(props: Props) {
   const getColor = (intensity: number) => {
     if (intensity === 0) return "#ffffff10";
 
-    return `rgba(241, 146, 46, ${intensity}) dark:rgba(241, 146, 46, ${intensity})`;
+    return `rgba(241, 146, 46, ${intensity}) `;
   };
 
   const weeks = getWeeks();
 
   return (
     <div className="my-4 rounded-xl border border-(--color-border) bg-(--color-surface)">
-      <div className="flex flex-wrap items-center justify-between gap-3 p-6">
+      <div className="flex flex-col items-center justify-between gap-3 p-6 md:flex-wrap">
         <h3 className="m-0 text-base font-semibold text-(--color-text-primary)">
           Contribution Activity
         </h3>
         <div className="flex items-center gap-1 text-xs text-(--color-text-secondary)">
           <span className="mx-1">Less</span>
-          <div className="h-3 w-3 rounded-sm bg-[#f3f4f6] dark:bg-[#1f2937]"></div>
-          <div className="h-3 w-3 rounded-sm bg-[#fed7aa] dark:bg-[#7c2d12]"></div>
-          <div className="h-3 w-3 rounded-sm bg-[#fdba74] dark:bg-[#9a3412]"></div>
-          <div className="h-3 w-3 rounded-sm bg-[#fb923c] dark:bg-[#c2410c]"></div>
-          <div className="h-3 w-3 rounded-sm bg-[#f97316] dark:bg-[#ea580c]"></div>
+          <div className="h-2 w-2 rounded-sm bg-[#f3f4f6] md:h-3 md:w-3 dark:bg-[#1f2937]"></div>
+          <div className="h-2 w-2 rounded-sm bg-[#fed7aa] md:h-3 md:w-3 dark:bg-[#7c2d12]"></div>
+          <div className="h-2 w-2 rounded-sm bg-[#fdba74] md:h-3 md:w-3 dark:bg-[#9a3412]"></div>
+          <div className="h-2 w-2 rounded-sm bg-[#fb923c] md:h-3 md:w-3 dark:bg-[#c2410c]"></div>
+          <div className="h-2 w-2 rounded-sm bg-[#f97316] md:h-3 md:w-3 dark:bg-[#ea580c]"></div>
           <span className="mx-1">More</span>
         </div>
       </div>
@@ -95,7 +95,7 @@ function HeatMapCalender(props: Props) {
             {dayLabels.map((label) => (
               <div
                 key={label}
-                className="flex h-13 items-center text-sm font-semibold text-(--color-text-secondary)"
+                className="flex h-10 items-center text-xs font-semibold text-(--color-text-secondary) lg:h-13 lg:text-sm"
               >
                 {label}
               </div>
@@ -116,7 +116,7 @@ function HeatMapCalender(props: Props) {
                       <div className="group relative">
                         <div
                           key={dayIndex}
-                          className="m-1 h-10 w-10 cursor-pointer rounded-md border border-(--color-border-secondary) transition-transform hover:scale-110"
+                          className="m-1 h-7 w-7 cursor-pointer rounded-md border border-(--color-border-secondary) transition-transform hover:scale-110 lg:h-10 lg:w-10"
                           style={{ backgroundColor: color }}
                         />
                         <div className="o text-ms absolute top-5 -left-26 z-1000 hidden rounded-md border border-(--color-border-secondary) bg-(--color-bg-primary) p-2 font-semibold whitespace-nowrap text-(--color-text-primary) group-hover:flex group-hover:flex-col">
