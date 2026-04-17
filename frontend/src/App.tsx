@@ -26,7 +26,7 @@ function App() {
           <Profile />
         </div>
 
-        <div className="sticky top-0 hidden h-screen shrink-0 overflow-hidden md:block">
+        <div className="sticky top-0 hidden h-screen shrink-0 overflow-hidden lg:block">
           <Rightbar />
         </div>
       </div>

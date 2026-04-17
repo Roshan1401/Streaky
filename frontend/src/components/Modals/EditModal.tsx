@@ -1,4 +1,4 @@
-import { Pencil, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 interface EditModalProps {
   isOpen: boolean;
@@ -32,7 +32,7 @@ export default function EditModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
       <div
-        className="w-[700px] rounded-2xl border border-(--color-border) bg-white p-8 dark:bg-[#0b0809]"
+        className="w-175 rounded-2xl border border-(--color-border) bg-white p-8 dark:bg-[#0b0809]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">
