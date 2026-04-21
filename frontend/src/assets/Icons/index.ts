@@ -7,6 +7,7 @@ import WebsiteIcon from "./WebsiteIcon";
 import LeaderboardIcon from "./LeaderboardIcon";
 import SignInIcon from "./SignInIcon";
 import SignOutIcon from "./SignOutIcon";
+import MedalIcon from "./MedalIcon";
 export {
   GithubIcon,
   InstagramIcon,
@@ -17,4 +18,5 @@ export {
   LeaderboardIcon,
   SignInIcon,
   SignOutIcon,
+  MedalIcon,
 };
