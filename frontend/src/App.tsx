@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Leftbar from "./components/layout/Leftbar";
 import Rightbar from "./components/layout/Rightbar";
 import Profile from "./pages/Profile";
@@ -7,11 +7,18 @@ import Login from "./components/layout/Login";
 import Leaderboard from "./pages/Leaderboard";
 
 function App() {
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark" ? true : false;
+  });
 
   function toggleTheme() {
     setTheme(!theme);
   }
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme ? "dark" : "light");
+  }, [theme]);
   return (
     <div
       className={`min-h-screen w-full bg-(--color-bg-primary) ${theme ? "dark" : ""}`}
@@ -22,8 +29,8 @@ function App() {
         </div>
 
         <div className="min-w-0 flex-1">
-          {/* <Leaderboard /> */}
-          <Profile />
+          <Leaderboard />
+          {/* <Profile /> */}
         </div>
 
         <div className="sticky top-0 hidden h-screen shrink-0 overflow-y-auto lg:block [&::-webkit-scrollbar]:w-2">

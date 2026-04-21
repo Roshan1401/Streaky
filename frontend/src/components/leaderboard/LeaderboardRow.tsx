@@ -9,7 +9,7 @@ function LeaderboardRow(props: Props) {
   const [activeRow, setActiveRow] = useState<LeaderboardRow>("24 Hours");
 
   return (
-    <div className="inline-flex items-center justify-center gap-2 rounded-4xl border border-(--color-border) bg-neutral-900 px-5 py-1">
+    <div className="inline-flex items-center justify-center gap-2 rounded-4xl border border-(--color-border) bg-neutral-900 px-2 py-1">
       {days.map((day) => {
         const isActive = activeRow === day;
         return (
@@ -18,7 +18,7 @@ function LeaderboardRow(props: Props) {
             type="button"
             onClick={() => setActiveRow(day)}
             className={[
-              "text-md cursor-pointer rounded-4xl px-6 py-2 font-bold transition-colors",
+              "md:text:md cursor-pointer rounded-4xl px-3 py-1 text-sm font-bold transition-colors md:px-6 md:py-2",
               isActive
                 ? "bg-(--color-bg-primary) text-(--color-text-primary)"
                 : "text-(--color-text-secondary)",
