@@ -1,11 +1,13 @@
 import { CircleAlert, CopyIcon, ExternalLinkIcon } from "lucide-react";
 import { SignOutIcon } from "../../assets/Icons/index";
 import profilImg from "../../assets/image.png";
+import { useNavigate } from "react-router-dom";
 
 interface Props {}
 
 function Rightbar(props: Props) {
   const {} = props;
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col gap-6 border-l border-(--color-border) bg-(--color-bg-primary) px-7 py-6 lg:w-55 xl:w-75">
@@ -29,7 +31,10 @@ function Rightbar(props: Props) {
           </span>
         </div>
 
-        <button className="text-md flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white shadow-2xl transition-all duration-200 hover:scale-102 hover:bg-orange-400 xl:text-xl">
+        <button
+          className="text-md flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white shadow-2xl transition-all duration-200 hover:scale-102 hover:bg-orange-400 xl:text-xl"
+          onClick={() => navigate("/profile")}
+        >
           <span>View Profile</span>
           <ExternalLinkIcon className="h-4 w-4 xl:h-5 xl:w-5" />
         </button>

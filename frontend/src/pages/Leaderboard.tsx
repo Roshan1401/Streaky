@@ -201,9 +201,9 @@ function Leaderboard() {
             </div>
           </div>
           <div className="">
-            <div className="text-md sticky top-0 z-10 hidden grid-cols-12 gap-4 bg-(--color-bg-secondary) px-8 py-4 font-semibold tracking-wide text-(--color-text-secondary) md:grid">
+            <div className="text-md sticky top-0 z-10 hidden grid-cols-12 gap-4 bg-(--color-bg-secondary) px-8 py-4 font-semibold tracking-wide text-(--color-text-secondary) md:grid lg:px-4 xl:px-8">
               <div className="col-span-1">Rank</div>
-              <div className="col-span-4 text-center">Developer</div>
+              <div className="col-span-4 text-left">Developer</div>
               <div className="col-span-3 text-center">Time Spent</div>
               <div className="col-span-4 text-right">Top Languages</div>
             </div>
@@ -214,10 +214,10 @@ function Leaderboard() {
                     key={index}
                     className="mx-2 my-3 rounded-xl border border-(--color-border) bg-(--color-bg-secondary) md:m-0 md:rounded-none md:border-0 md:border-t"
                   >
-                    <div className="flex cursor-pointer items-center gap-2 p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6">
+                    <div className="flex cursor-pointer items-center gap-2 p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6 lg:px-4 lg:py-8 xl:px-8">
                       <div className="col-span-1 flex">
                         <span
-                          className={`flex items-center justify-center rounded-full bg-neutral-200 px-2 py-1 text-xs font-semibold text-(--color-text-primary) md:size-9 md:text-lg dark:bg-neutral-800`}
+                          className={`flex items-center justify-center rounded-full bg-neutral-200 px-2 py-1 text-xs font-semibold text-(--color-text-primary) md:size-9 md:text-lg lg:px-3 dark:bg-neutral-800`}
                         >
                           {user.rank}
                         </span>

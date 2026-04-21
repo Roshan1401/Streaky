@@ -5,6 +5,7 @@ import Rightbar from "./components/layout/Rightbar";
 import Profile from "./pages/Profile";
 import Login from "./components/layout/Login";
 import Leaderboard from "./pages/Leaderboard";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -29,8 +30,7 @@ function App() {
         </div>
 
         <div className="min-w-0 flex-1">
-          <Leaderboard />
-          {/* <Profile /> */}
+          <Outlet />
         </div>
 
         <div className="sticky top-0 hidden h-screen shrink-0 overflow-y-auto lg:block [&::-webkit-scrollbar]:w-2">
