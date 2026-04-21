@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Profile from "./pages/Profile.tsx";
 import Leaderboard from "./pages/Leaderboard.tsx";
+import Explore from "./pages/Explore.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -11,8 +12,8 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/" element={<App />}>
         <Route index element={<Navigate to="leaderboard" />} />
         <Route path="leaderboard" element={<Leaderboard />} />
-
         <Route path="profile" element={<Profile />} />
+        <Route path="explore" element={<Explore />} />
       </Route>
     </Routes>
   </BrowserRouter>,

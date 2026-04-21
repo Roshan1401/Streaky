@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { Trophy, Compass, Users, Rocket, User } from "lucide-react";
-import profilImg from "../../assets/image.png";
 import { LeaderboardIcon, SignInIcon } from "../../assets/Icons/index";
 import { Sun, Moon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   onThemeToggle: () => void;
@@ -15,17 +14,11 @@ const navItems = [
   { name: "Leaderboard", path: "/leaderboard", icon: LeaderboardIcon },
   { name: "Explore", path: "/explore", icon: Compass },
   { name: "Rank", path: "/rank", icon: Trophy },
-  { name: "Community", path: "/community", icon: Users },
   { name: "Get Started", path: "/get-started", icon: Rocket },
   { name: "Profile", path: "/profile", icon: User },
 ];
 
-function Navbar({
-  onThemeToggle,
-  isDarkTheme = false,
-  scrolled = false,
-}: Props) {
-  const [activeItem, setActiveItem] = useState("Leaderboard");
+function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
   const navigate = useNavigate();
   return (
     <div className="flex lg:min-h-screen">
@@ -39,43 +32,54 @@ function Navbar({
           </h1>
         </div>
 
-        <nav className="flex w-full justify-between px-4 md:justify-between md:px-8 lg:flex-col lg:gap-2">
+        <ul className="flex w-full justify-between px-4 md:justify-between md:px-8 lg:flex-col lg:gap-2">
           {navItems.map((item) => {
-            const isActive = activeItem === item.name;
             const Icon = item.icon;
+            const isGetStarted = item.name === "Get Started";
+            const isProfile = item.name === "Profile";
 
             return (
-              <button
+              <li
                 key={item.name}
-                type="button"
-                onClick={() => {
-                  setActiveItem(item.name);
-                  navigate(item.path);
-                }}
                 className={[
-                  "flex cursor-pointer flex-col items-center gap-2 text-left text-xs font-medium transition-colors lg:flex-row lg:gap-3 lg:rounded-md lg:border-b-2 lg:px-3 lg:py-2 lg:text-lg xl:text-xl",
-                  isActive
-                    ? "text-orange-500 lg:border-orange-500 lg:bg-orange-500/20 lg:text-(--color-text-primary)"
-                    : "border-transparent text-(--color-text-secondary) hover:bg-orange-500/15 hover:text-(--color-text-primary)",
-                  `${item.name === "Profile" ? "flex lg:hidden" : ""}`,
-                  `${item.name === "Get Started" ? "hidden lg:flex" : ""}`,
+                  isGetStarted ? "hidden lg:block" : "",
+                  isProfile ? "block lg:hidden" : "",
+                  "w-full lg:w-auto",
                 ].join(" ")}
               >
-                <div
-                  className={[
-                    "flex items-center justify-center rounded-full p-2 lg:p-0",
-                    isActive
-                      ? "bg-orange-200/50 text-orange-500 dark:bg-orange-400/30 dark:lg:bg-transparent"
-                      : "",
-                  ].join(" ")}
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    [
+                      "flex cursor-pointer flex-col items-center gap-2 text-left text-xs font-medium transition-colors lg:flex-row lg:gap-3 lg:rounded-md lg:border-b-2 lg:px-3 lg:py-2 lg:text-lg xl:text-xl",
+                      isActive
+                        ? "text-orange-500 lg:border-orange-500 lg:bg-orange-500/20 lg:text-(--color-text-primary)"
+                        : "border-transparent text-(--color-text-secondary) hover:bg-orange-500/15 hover:text-(--color-text-primary)",
+                      `${item.name === "Profile" ? "flex lg:hidden" : ""}`,
+                      `${item.name === "Get Started" ? "hidden lg:flex" : ""}`,
+                    ].join(" ")
+                  }
                 >
-                  <Icon className="h-4 w-4 xl:h-5 xl:w-5" />
-                </div>
-                {item.name}
-              </button>
+                  {({ isActive }) => (
+                    <>
+                      <span
+                        className={[
+                          "flex items-center justify-center rounded-full p-2 lg:p-0",
+                          isActive
+                            ? "bg-orange-200/50 text-orange-500 dark:bg-orange-400/30 dark:lg:bg-transparent"
+                            : "",
+                        ].join(" ")}
+                      >
+                        <Icon className="h-4 w-4 xl:h-5 xl:w-5" />
+                      </span>
+                      {item.name}
+                    </>
+                  )}
+                </NavLink>
+              </li>
             );
           })}
-        </nav>
+        </ul>
 
         <div className="flex-1 justify-end gap-4 lg:flex lg:flex-col lg:p-6">
           <div
