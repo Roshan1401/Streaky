@@ -1,5 +1,27 @@
-import { Plus } from "lucide-react";
 import { useState } from "react";
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
+
+// ── Types ──────────────────────────────────────────────────────────────────
+interface SelectedCountry {
+  isoCode: string;
+  name: string;
+}
+
+interface SelectedState {
+  isoCode: string;
+  name: string;
+}
+
+interface SelectedCity {
+  name: string;
+}
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -8,96 +30,283 @@ interface EditModalProps {
     username?: string;
     bio?: string;
   };
-  onSave?: (data: { name: string; username: string; bio: string }) => void;
+  onSave?: (data: {
+    name: string;
+    username: string;
+    bio: string;
+    country: string;
+    state: string;
+    city: string;
+  }) => void;
 }
+
+const countryOptions: SelectOption[] = Country.getAllCountries().map((c) => ({
+  label: c.name,
+  value: c.isoCode,
+}));
+
+const selectStyles = (hasError: boolean) => ({
+  control: (base: object) => ({
+    ...base,
+    borderColor: hasError ? "#ef4444" : undefined,
+  }),
+  menuPortal: (base: object) => ({
+    ...base,
+    zIndex: 9999,
+  }),
+});
+
 export default function EditModal({
   isOpen,
   onClose,
   initialData,
   onSave,
 }: EditModalProps) {
-  const [name, setName] = useState(initialData?.name || "");
-  const [username, setUsername] = useState(initialData?.username || "");
-  const [bio, setBio] = useState(initialData?.bio || "");
+  const [page, setPage] = useState(1);
+  const [name, setName] = useState(initialData?.name ?? "");
+  const [username, setUsername] = useState(initialData?.username ?? "");
+  const [bio, setBio] = useState(initialData?.bio ?? "");
+  const [country, setCountry] = useState<SelectedCountry | null>(null);
+  const [state, setState] = useState<SelectedState | null>(null);
+  const [city, setCity] = useState<SelectedCity | null>(null);
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
+
   if (!isOpen) return null;
+
+  const clearError = (key: string) =>
+    setErrors((prev) => ({ ...prev, [key]: false }));
+
+  const validate = (fields: Record<string, unknown>) => {
+    const newErrors = Object.fromEntries(
+      Object.entries(fields).map(([k, v]) => [k, !v]),
+    );
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
+
+  const handleNext = () => {
+    if (validate({ name, username, bio })) setPage(2);
+  };
+
   const handleSave = () => {
-    if (onSave) {
-      onSave({ name, username, bio });
+    if (validate({ country, state, city }) && onSave) {
+      onSave({
+        name,
+        username,
+        bio,
+        country: country?.name ?? "",
+        state: state?.name ?? "",
+        city: city?.name ?? "",
+      });
+      handleClose();
     }
+  };
+
+  const handleClose = () => {
+    setPage(1);
+    setErrors({});
     onClose();
   };
+
+  const stateOptions: SelectOption[] = country
+    ? State.getStatesOfCountry(country.isoCode).map((s) => ({
+        label: s.name,
+        value: s.isoCode,
+      }))
+    : [];
+
+  const cityOptions: SelectOption[] =
+    country && state
+      ? City.getCitiesOfState(country.isoCode, state.isoCode).map((c) => ({
+          label: c.name,
+          value: c.name,
+        }))
+      : [];
+
+  const inputClass = (hasError: boolean) =>
+    `w-full rounded-md border bg-transparent p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none dark:text-white ${
+      hasError ? "border-red-500" : "border-(--color-border)"
+    }`;
+
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-    >
-      <div
-        className="w-175 rounded-2xl border border-(--color-border) bg-white p-8 dark:bg-[#0b0809]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-(--color-text-primary)">
-            Edit Information
-          </h2>
-          <button
-            onClick={onClose}
-            className="cursor-pointer rounded-full p-2 text-neutral-800 hover:bg-neutral-200 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-neutral-800 dark:hover:text-gray-200"
-          >
-            <Plus className="h-5 w-5 rotate-45" />
-          </button>
-        </div>
-        <div className="space-y-4">
-          <div>
-            <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
-              Name
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-md border border-(--color-border) bg-transparent p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none dark:text-white"
-              placeholder="Enter your name"
-            />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="w-175 rounded-2xl border border-(--color-border) bg-white p-8 dark:bg-[#0b0809]">
+        <h2 className="mb-6 text-2xl font-semibold text-(--color-text-primary)">
+          Edit Information
+        </h2>
+
+        {/* ── Page 1 ── */}
+        {page === 1 && (
+          <div className="min-h-[340px] space-y-4">
+            {(
+              [
+                {
+                  label: "Name",
+                  value: name,
+                  setter: setName,
+                  key: "name",
+                  placeholder: "Enter your name",
+                },
+                {
+                  label: "Username",
+                  value: username,
+                  setter: setUsername,
+                  key: "username",
+                  placeholder: "Enter your username",
+                },
+              ] as const
+            ).map(({ label, value, setter, key, placeholder }) => (
+              <div key={key}>
+                <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
+                  {label}
+                </label>
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => {
+                    setter(e.target.value);
+                    if (errors[key]) clearError(key);
+                  }}
+                  className={inputClass(errors[key])}
+                  placeholder={placeholder}
+                />
+                {errors[key] && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {label} is required
+                  </p>
+                )}
+              </div>
+            ))}
+
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
+                Bio
+              </label>
+              <textarea
+                value={bio}
+                onChange={(e) => {
+                  setBio(e.target.value.slice(0, 150));
+                  if (errors.bio) clearError("bio");
+                }}
+                className={`h-24 resize-none ${inputClass(errors.bio)}`}
+                placeholder="Write something about yourself..."
+              />
+              <div className="flex justify-between">
+                {errors.bio && (
+                  <p className="text-sm text-red-500">Bio is required</p>
+                )}
+                <p className="mt-1 ml-auto text-sm text-gray-500 dark:text-gray-400">
+                  {bio.length}/150
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-md border border-(--color-border) bg-transparent p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none dark:text-white"
-              placeholder="Enter your username"
-            />
+        )}
+
+        {/* ── Page 2 ── */}
+        {page === 2 && (
+          <div className="min-h-[340px] space-y-4">
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
+                Country
+              </label>
+              <Select
+                options={countryOptions}
+                value={
+                  country
+                    ? { label: country.name, value: country.isoCode }
+                    : null
+                }
+                onChange={(opt) => {
+                  setCountry(
+                    opt ? { isoCode: opt.value, name: opt.label } : null,
+                  );
+                  setState(null);
+                  setCity(null);
+                  if (errors.country) clearError("country");
+                }}
+                placeholder="Select country"
+                isClearable
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                styles={selectStyles(errors.country)}
+              />
+              {errors.country && (
+                <p className="mt-1 text-sm text-red-500">Country is required</p>
+              )}
+            </div>
+
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
+                State
+              </label>
+              <Select
+                options={stateOptions}
+                value={
+                  state ? { label: state.name, value: state.isoCode } : null
+                }
+                onChange={(opt) => {
+                  setState(
+                    opt ? { isoCode: opt.value, name: opt.label } : null,
+                  );
+                  setCity(null);
+                  if (errors.state) clearError("state");
+                }}
+                placeholder="Select state"
+                isDisabled={!country}
+                isClearable
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                styles={selectStyles(errors.state)}
+              />
+              {errors.state && (
+                <p className="mt-1 text-sm text-red-500">State is required</p>
+              )}
+            </div>
+
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
+                City
+              </label>
+              <Select
+                value={city ? { label: city.name, value: city.name } : null}
+                options={cityOptions}
+                onChange={(opt) => {
+                  setCity(opt ? { name: opt.label } : null);
+                  if (errors.city) clearError("city");
+                }}
+                placeholder="Select city"
+                isDisabled={!state}
+                isClearable
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                styles={selectStyles(errors.city)}
+              />
+              {errors.city && (
+                <p className="mt-1 text-sm text-red-500">City is required</p>
+              )}
+            </div>
           </div>
-          <div>
-            <label className="mb-2 block text-lg font-medium text-gray-700 dark:text-gray-300">
-              Bio
-            </label>
-            <textarea
-              value={bio}
-              onChange={(e) => setBio(e.target.value.slice(0, 150))}
-              className="h-24 w-full resize-none rounded-md border border-(--color-border) bg-transparent p-3 focus:ring-2 focus:ring-orange-500 focus:outline-none dark:text-white"
-              placeholder="Write something about yourself..."
-            />
-            <p className="mt-1 text-right text-sm text-gray-500 dark:text-gray-400">
-              {bio.length}/150
-            </p>
-          </div>
-        </div>
+        )}
+
+        {/* ── Footer ── */}
         <div className="mt-6 flex gap-3">
+          {page === 2 && (
+            <button
+              onClick={() => {
+                setErrors({});
+                setPage(1);
+              }}
+              className="flex-1 cursor-pointer rounded-md border border-(--color-border) px-4 py-2 transition-colors hover:bg-gray-100 dark:text-white dark:hover:bg-neutral-800"
+            >
+              Previous
+            </button>
+          )}
           <button
-            onClick={onClose}
-            className="flex-1 cursor-pointer rounded-md border border-(--color-border) px-4 py-2 transition-colors hover:bg-gray-100 dark:text-white dark:hover:bg-neutral-800"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
+            onClick={page === 1 ? handleNext : handleSave}
             className="flex-1 cursor-pointer rounded-md bg-orange-500 px-4 py-2 text-white transition-colors hover:bg-orange-600"
           >
-            Save
+            {page === 1 ? "Next" : "Save"}
           </button>
         </div>
       </div>

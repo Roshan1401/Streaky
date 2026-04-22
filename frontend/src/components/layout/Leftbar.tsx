@@ -1,7 +1,6 @@
-import { Trophy, Compass, Users, Rocket, User } from "lucide-react";
+import { Trophy, Compass, Rocket, User } from "lucide-react";
 import { LeaderboardIcon, SignInIcon } from "../../assets/Icons/index";
 import { Sun, Moon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -19,7 +18,6 @@ const navItems = [
 ];
 
 function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
-  const navigate = useNavigate();
   return (
     <div className="flex lg:min-h-screen">
       <div
