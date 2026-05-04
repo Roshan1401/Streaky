@@ -15,7 +15,6 @@ const Login = () => {
 
   const handleLogin = async (provider: "github" | "twitter") => {
     setStatus(provider);
-    console.log(`Initiating login with ${provider}...`);
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: provider,
@@ -31,7 +30,6 @@ const Login = () => {
       }
 
       if (data?.url) {
-        console.log("Redirecting to:", data.url);
         window.location.href = data.url;
       } else {
         console.log("No redirect URL returned");

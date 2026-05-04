@@ -38,7 +38,7 @@ function App() {
           <Outlet />
         </div>
 
-        <div className="sticky top-0 hidden h-screen shrink-0 overflow-y-auto lg:block [&::-webkit-scrollbar]:w-2">
+        <div className="sticky top-0 hidden h-screen shrink-0 overflow-y-auto border-l border-(--color-border) bg-(--color-bg-primary) lg:block [&::-webkit-scrollbar]:w-2">
           <Rightbar />
         </div>
       </div>

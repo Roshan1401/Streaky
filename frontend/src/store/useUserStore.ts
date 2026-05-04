@@ -19,7 +19,10 @@ const useUserStore = create<UserState>((set) => ({
   initialize: async () => {
     set({ loading: true });
     const { data } = await supabase.auth.getSession();
-    set({ user: data.session?.user ?? null, loading: false });
+    console.log("Fetched session data:", data);
+    const user = data.session?.user ?? null;
+
+    set({ user: user ?? null, loading: false });
 
     supabase.auth.onAuthStateChange((_event, session) => {
       set({ user: session?.user ?? null, loading: false });
