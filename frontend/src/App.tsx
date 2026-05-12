@@ -10,10 +10,11 @@ function App() {
   const [theme, setTheme] = useState<boolean>(() => {
     return localStorage.getItem("theme") === "dark";
   });
-
+  const user = useUserStore((state) => state.user);
   const initialize = useUserStore((state) => state.initialize);
 
   useEffect(() => {
+    console.log("Initializing user session...", user);
     initialize();
   }, [initialize]);
 

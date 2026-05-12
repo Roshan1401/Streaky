@@ -1,11 +1,10 @@
 import profilImg from "../../../assets/image.png";
 import { ExternalLinkIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useProfileStore from "../../../store/useProfileStore";
 
-interface Props {}
-
-function ProfileSection(props: Props) {
-  const {} = props;
+function ProfileSection() {
+  const profile = useProfileStore((state) => state.profile);
   const navigate = useNavigate();
 
   return (
@@ -19,13 +18,13 @@ function ProfileSection(props: Props) {
       </div>
       <div className="flex flex-col items-center gap-1">
         <span className="text-xl font-semibold text-(--color-text-primary) xl:text-2xl">
-          Roshan Patil
+          {profile?.name || "Adom"}
         </span>
         <span className="xl:text-md text-sm text-(--color-text-secondary)">
-          @patilrosha99
+          {profile?.username || "@adom"}
         </span>
         <span className="text-md mt-2 text-(--color-text-secondary) xl:text-lg">
-          Learning React
+          {profile?.bio}
         </span>
       </div>
 

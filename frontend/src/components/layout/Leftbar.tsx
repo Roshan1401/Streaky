@@ -1,7 +1,9 @@
 import { Trophy, Compass, Rocket, User } from "lucide-react";
 import { LeaderboardIcon, SignInIcon } from "../../assets/Icons/index";
 import { Sun, Moon } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import useUserStore from "../../store/useUserStore";
+import useProfileStore from "../../store/useProfileStore";
 
 interface Props {
   onThemeToggle: () => void;
@@ -18,6 +20,17 @@ const navItems = [
 ];
 
 function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
+  const user = useUserStore((state) => state.user);
+  const loading = useUserStore((state) => state.loading);
+  const profile = useProfileStore((state) => state.profile);
+  const profileLoading = useProfileStore((state) => state.loading);
+
+  const avatar_url = profile?.avatar_url;
+  const name = profile?.name;
+  const username = profile?.username;
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex lg:min-h-screen">
       <div
@@ -97,27 +110,43 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
               ></div>
             </button>
           </div>
-          <button className="hidden cursor-pointer items-center justify-center gap-2 rounded-md border border-orange-500/30 bg-(--color-bg-primary) px-3 py-2 text-sm font-bold text-orange-500 transition-colors hover:border-orange-500/60 active:border-orange-500 active:bg-orange-500/20 active:text-orange-100 lg:flex">
-            <SignInIcon className="h-5 w-5" />
-            <span>Sign In</span>
-          </button>
-          {/* <div className="flex  hidden lg:flex items-center  border border-(--color-border-secondary) dark:border-black hover:border-orange-500 gap-5 hover:bg-(--color-bg-secondary) cursor-pointer rounded-full p-2">
-            <div className="size-12 rounded-full  dark:border-black  overflow-hidden relative">
-              <img
-                src={profilImg}
-                className="w-full h-full object-cover"
-                alt="Profile"
-              />
+
+          {!loading && !user ? (
+            <button
+              className="hidden cursor-pointer items-center justify-center gap-2 rounded-md border border-orange-500/30 bg-(--color-bg-primary) px-3 py-2 text-sm font-bold text-orange-500 transition-colors hover:border-orange-500/60 active:border-orange-500 active:bg-orange-500/20 active:text-orange-100 lg:flex"
+              onClick={() => navigate("/login")}
+            >
+              <SignInIcon className="h-5 w-5" />
+              <span>Sign In</span>
+            </button>
+          ) : profileLoading ? (
+            <div className="hidden items-center gap-5 rounded-full p-2 lg:flex">
+              <div className="size-12 animate-pulse rounded-full bg-gray-300 dark:bg-neutral-700" />
+
+              <div className="flex flex-col gap-2">
+                <div className="h-4 w-28 animate-pulse rounded-md bg-gray-300 dark:bg-neutral-700" />
+                <div className="h-3 w-20 animate-pulse rounded-md bg-gray-300 dark:bg-neutral-700" />
+              </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-(--color-text-primary) text-md font-semibold">
-                Roshan Patil
-              </span>
-              <span className="text-(--color-text-secondary) text-sm">
-                @patilrosha99
-              </span>
+          ) : (
+            <div className="hidden cursor-pointer items-center gap-5 rounded-full border border-(--color-border-secondary) p-2 hover:border-orange-500 hover:bg-(--color-bg-secondary) lg:flex dark:border-black">
+              <div className="relative size-12 overflow-hidden rounded-full dark:border-black">
+                <img
+                  src={avatar_url}
+                  className="h-full w-full object-cover"
+                  alt="Profile"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-md font-semibold text-(--color-text-primary)">
+                  {name}
+                </span>
+                <span className="text-sm text-(--color-text-secondary)">
+                  {username}
+                </span>
+              </div>
             </div>
-          </div> */}
+          )}
         </div>
       </div>
     </div>

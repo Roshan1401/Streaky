@@ -28,12 +28,6 @@ const Login = () => {
         setStatus(null);
         return;
       }
-
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        console.log("No redirect URL returned");
-      }
     } catch (error) {
       console.error("OAuth exception:", error);
       setStatus(null);
