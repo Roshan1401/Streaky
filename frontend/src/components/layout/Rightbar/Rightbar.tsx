@@ -6,8 +6,10 @@ import ActionsSection from "./ActionsSection";
 import useUserStore from "../../../store/useUserStore";
 import useProfileStore from "../../../store/useProfileStore";
 import { ExternalLinkIcon } from "lucide-react";
-import { Skeleton } from "boneyard-js/react";
 import { useEffect } from "react";
+import ProfileSectionSkeleton from "../../../Skeletons/ProfileSectionSkeleton";
+import ActivitySectionSkeleton from "../../../Skeletons/ActivitySectionSkeleton";
+import ActionsSectionSkeleton from "../../../Skeletons/ActionSection.Skeleton";
 
 function Rightbar() {
   const { user, loading, logOut } = useUserStore();
@@ -52,6 +54,12 @@ function Rightbar() {
             <ExternalLinkIcon className="h-4 w-4 xl:h-5 xl:w-5" />
           </button>
         </div>
+      ) : profileLoading ? (
+        <>
+          <ProfileSectionSkeleton />
+          <ActivitySectionSkeleton />
+          <ActionsSectionSkeleton />
+        </>
       ) : (
         <>
           <ProfileSection />
