@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { User as supabaseUser } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
+import { getApiToken } from "../api/token";
+import useTokenStore from "./useTokenStore";
 
 interface UserState {
   user: supabaseUser | null;
@@ -23,6 +25,13 @@ const useUserStore = create<UserState>((set) => ({
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const user = data.session?.user ?? null;
+
+    if (user) {
+      const token = await getApiToken(user.id);
+      if (token) {
+        useTokenStore.getState().setToken(token);
+      }
+    }
 
     set({ user: user ?? null, loading: false });
 

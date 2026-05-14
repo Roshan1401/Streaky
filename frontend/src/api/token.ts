@@ -1,4 +1,6 @@
+import { data } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import useTokenStore from "../store/useTokenStore";
 import useUserStore from "../store/useUserStore";
 
 interface ApiToken {
@@ -7,39 +9,38 @@ interface ApiToken {
   revoked: boolean;
 }
 
-export async function getApiToken() {
-  const user = useUserStore.getState().user;
-
-  if (!user) return null;
-
-  //check existing token
-  const existingToken = await supabase
+export async function getApiToken(userId: string) {
+  const { data, error } = await supabase
     .from("api_tokens")
     .select("*")
-    .eq("user_id", user?.id)
+    .eq("user_id", userId)
     .eq("revoked", false)
     .single();
 
-  //create token if not exist
-  if (!existingToken.data) {
-    const token = crypto.randomUUID();
-    const tokenData: ApiToken = {
-      user_id: user?.id,
+  if (error) {
+    console.error("Error while fetching token ", error);
+    return;
+  }
+
+  return data?.token || null;
+}
+
+export async function createApiToken(userId: string) {
+  const token = crypto.randomUUID();
+
+  const { data, error } = await supabase
+    .from("api_tokens")
+    .insert({
+      user_id: userId,
       token,
       revoked: false,
-    };
-    const { data, error } = await supabase
-      .from("api_tokens")
-      .insert(tokenData)
-      .select("*")
-      .single();
+    })
+    .select("*")
+    .single();
 
-    if (error) {
-      console.error("Error creating API token:", error);
-      return null;
-    }
-
-    return data?.token || null;
+  if (error) {
+    return null;
   }
-  return existingToken.data.token;
+
+  return data.token;
 }
