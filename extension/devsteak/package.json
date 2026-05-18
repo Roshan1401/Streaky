@@ -14,8 +14,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "devsteak.configureAccount",
-        "title": "DevSteak: Configure Account"
+        "command": "devsteak.configureApiKey",
+        "title": "DevSteak: Configure API Key"
+      },
+      {
+        "command": "devsteak.clearApiKey",
+        "title": "DevSteak: Clear API Key"
       }
     ]
   },

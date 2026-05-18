@@ -1,9 +1,16 @@
 import * as vscode from "vscode";
 import { supabase } from "./lib/supabase";
+import { startTracking } from "./tracker";
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
+  const token = await context.secrets.get("devsteak_api_token");
+
+  if (token) {
+    startTracking(context);
+  }
+
   const connectAccount = vscode.commands.registerCommand(
-    "devsteak.configureAccount",
+    "devsteak.configureApiKey",
     async () => {
       const token = await vscode.window.showInputBox({
         placeHolder: "Paste your API token ",
@@ -43,7 +50,13 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  context.subscriptions.push(connectAccount);
-}
+  const disconnectAccount = vscode.commands.registerCommand(
+    "devsteak.clearApiKey",
+    async () => {
+      await context.secrets.delete("devsteak_api_token");
+      vscode.window.showInformationMessage("API token cleared successfully.");
+    },
+  );
 
-export function deactivate() {}
+  context.subscriptions.push(connectAccount, disconnectAccount);
+}
