@@ -33,6 +33,11 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
             return;
           }
 
+          await supabase
+            .from("profiles")
+            .update({ last_active_at: new Date() })
+            .eq("id", user_id);
+
           clearSessions();
         } catch (error) {
           console.error("Failed to send sessions:", error);
