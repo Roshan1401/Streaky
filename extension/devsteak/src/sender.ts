@@ -7,6 +7,12 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
     async () => {
       const token = await context.secrets.get("devsteak_api_token");
       const user_id = await context.secrets.get("devsteak_user_id");
+
+      if (!token || !user_id) {
+        console.error("API token or user ID not found. Cannot send sessions.");
+        return;
+      }
+
       if (token) {
         const sessions = getSessions();
         if (sessions.length === 0) return;
@@ -27,10 +33,7 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
             return;
           }
 
-          if (data) {
-            clearSessions();
-            console.log("Sessions sent successfully:", data);
-          }
+          clearSessions();
         } catch (error) {
           console.error("Failed to send sessions:", error);
         }
