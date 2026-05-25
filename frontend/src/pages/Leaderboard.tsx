@@ -249,7 +249,7 @@ function Leaderboard() {
                           <div className="w-20 truncate text-sm font-medium text-(--color-text-primary) hover:underline md:w-fit md:text-lg md:font-semibold md:whitespace-normal">
                             {user.name}
                           </div>
-                          <div className="group hidden items-center justify-center gap-1 md:flex">
+                          <div className="group justify-left hidden items-center gap-1 md:flex">
                             <GithubIcon className="inline-block h-4 w-4 text-(--color-text-secondary) group-hover:text-orange-500" />
                             <span className="text-sm text-(--color-text-secondary) group-hover:text-orange-500">
                               Roshan1401
