@@ -1,11 +1,11 @@
 import { supabase } from "../lib/supabase";
-type range = "24h" | "7d" | "30d";
+type range = "24h" | "7day" | "30day";
 
 const getStartRange = (range: range): string => {
   const ms = {
     "24h": 24 * 60 * 60 * 1000,
-    "7d": 7 * 24 * 60 * 60 * 1000,
-    "30d": 30 * 24 * 60 * 60 * 1000,
+    "7day": 7 * 24 * 60 * 60 * 1000,
+    "30day": 30 * 24 * 60 * 60 * 1000,
   };
 
   return new Date(Date.now() - ms[range]).toISOString();
@@ -14,12 +14,14 @@ const getStartRange = (range: range): string => {
 export async function fetchLeaderboard(range: range) {
   const { data, error } = await supabase
     .from("sessions")
-    .select("user_id, duration, language, profiles(name, username, avatar_url)")
+    .select(
+      "user_id, duration_seconds, language, profiles(name, username, avatar_url)",
+    )
     .gte("recorded_at", getStartRange(range));
 
-  if (error || !data) {
+  if (error || data.length === 0) {
     console.error("Error fetching leaderboard data: ", error);
-    return null;
+    return [];
   }
 
   const userMap: Record<string, any> = {};
@@ -37,12 +39,12 @@ export async function fetchLeaderboard(range: range) {
       };
     }
 
-    userMap[id].totalSeconds += session.duration;
+    userMap[id].totalSeconds += session.duration_seconds;
 
     const language = session.language;
 
     userMap[id].byLanguage[language] =
-      (userMap[id].byLanguage[language] || 0) + session.duration;
+      (userMap[id].byLanguage[language] || 0) + session.duration_seconds;
   });
 
   const ranked = Object.values(userMap)
@@ -53,7 +55,7 @@ export async function fetchLeaderboard(range: range) {
       name: user.name,
       username: user.username,
       avatar_url: user.avatar_url,
-      totalSeconds: user.totalSeconds,
+      timeSpent: (user.totalSeconds / 3600).toFixed(1),
       byLanguage: Object.entries(user.byLanguage)
         .sort((a: any, b: any) => b[1] - a[1])
         .map(([lang, secs]: any) => ({
