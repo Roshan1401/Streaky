@@ -3,12 +3,14 @@
 import { registerBones } from 'boneyard-js'
 import { configureBoneyard } from 'boneyard-js/react'
 
+import _leaderboard from './leaderboard.bones.json'
 import _leftbar_profile from './leftbar-profile.bones.json'
 import _right_bar from './right-bar.bones.json'
 
 configureBoneyard({"animate":"shimmer"})
 
 registerBones({
+  "leaderboard": _leaderboard,
   "leftbar-profile": _leftbar_profile,
   "right-bar": _right_bar,
 })
