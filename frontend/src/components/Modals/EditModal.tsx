@@ -130,10 +130,32 @@ export default function EditModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-sm rounded-2xl border border-(--color-border) bg-white p-4 dark:bg-[#0b0809] sm:max-w-md sm:p-6 md:max-w-lg md:p-8 lg:max-w-xl">
-        <h2 className="mb-4 text-xl font-semibold text-(--color-text-primary) sm:mb-6 md:text-2xl">
-          Edit Information
-        </h2>
+      <div className="w-full max-w-sm rounded-2xl border border-(--color-border) bg-white p-4 sm:max-w-md sm:p-6 md:max-w-lg md:p-8 lg:max-w-xl dark:bg-[#0b0809]">
+        <div className="mb-4 flex items-center justify-between sm:mb-6">
+          <h2 className="text-xl font-semibold text-(--color-text-primary) md:text-2xl">
+            Edit Information
+          </h2>
+          <button
+            onClick={handleClose}
+            className="cursor-pointer rounded-md p-1 text-gray-500 hover:bg-(--color-bg-secondary) hover:text-(--color-text-primary)"
+            aria-label="Close"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 sm:h-6 sm:w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
         {/* ── Page 1 ── */}
         {page === 1 && (
@@ -157,7 +179,7 @@ export default function EditModal({
               ] as const
             ).map(({ label, value, setter, key, placeholder }) => (
               <div key={key}>
-                <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300 sm:mb-2 md:text-lg">
+                <label className="mb-1 block text-base font-medium text-gray-700 sm:mb-2 md:text-lg dark:text-gray-300">
                   {label}
                 </label>
                 <input
@@ -179,7 +201,7 @@ export default function EditModal({
             ))}
 
             <div>
-              <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300 sm:mb-2 md:text-lg">
+              <label className="mb-1 block text-base font-medium text-gray-700 sm:mb-2 md:text-lg dark:text-gray-300">
                 Bio
               </label>
               <textarea
@@ -207,7 +229,7 @@ export default function EditModal({
         {page === 2 && (
           <div className="min-h-[280px] space-y-3 sm:min-h-[340px] sm:space-y-4">
             <div>
-              <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300 sm:mb-2 md:text-lg">
+              <label className="mb-1 block text-base font-medium text-gray-700 sm:mb-2 md:text-lg dark:text-gray-300">
                 Country
               </label>
               <Select
@@ -237,7 +259,7 @@ export default function EditModal({
             </div>
 
             <div>
-              <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300 sm:mb-2 md:text-lg">
+              <label className="mb-1 block text-base font-medium text-gray-700 sm:mb-2 md:text-lg dark:text-gray-300">
                 State
               </label>
               <Select
@@ -265,7 +287,7 @@ export default function EditModal({
             </div>
 
             <div>
-              <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300 sm:mb-2 md:text-lg">
+              <label className="mb-1 block text-base font-medium text-gray-700 sm:mb-2 md:text-lg dark:text-gray-300">
                 City
               </label>
               <Select
@@ -297,7 +319,7 @@ export default function EditModal({
                 setErrors({});
                 setPage(1);
               }}
-              className="flex-1 cursor-pointer rounded-md border border-(--color-border) px-3 py-2 text-sm transition-colors hover:bg-gray-100 dark:text-white dark:hover:bg-neutral-800 sm:px-4 md:text-base"
+              className="flex-1 cursor-pointer rounded-md border border-(--color-border) px-3 py-2 text-sm transition-colors hover:bg-gray-100 sm:px-4 md:text-base dark:text-white dark:hover:bg-neutral-800"
             >
               Previous
             </button>

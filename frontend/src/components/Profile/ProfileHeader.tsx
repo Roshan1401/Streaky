@@ -8,6 +8,7 @@ import {
 } from "../Modals/SocialLinkModal";
 import EditModal from "../Modals/EditModal";
 import { Pencil, Plus } from "lucide-react";
+import useProfileStore from "../../store/useProfileStore";
 
 function SocialLinkButton({
   svg,
@@ -33,6 +34,8 @@ function SocialLinkButton({
 }
 
 function ProfileHeader() {
+  const profileData = useProfileStore((state) => state.profile);
+
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([
     {
       platform: "github",
@@ -41,6 +44,7 @@ function ProfileHeader() {
       url: "https://github.com/roshanpatil",
     },
   ]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setzIsEditModalOpen] = useState(false);
 
@@ -60,6 +64,11 @@ function ProfileHeader() {
       <EditModal
         isOpen={isEditModalOpen}
         onClose={() => setzIsEditModalOpen(false)}
+        initialData={{
+          name: profileData?.name || "",
+          username: profileData?.username || "",
+          bio: profileData?.bio || "",
+        }}
       />
 
       <div className="relative">
