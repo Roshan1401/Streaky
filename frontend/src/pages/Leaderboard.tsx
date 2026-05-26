@@ -6,6 +6,7 @@ import { MedalIcon } from "../assets/Icons/index";
 import { fetchLeaderboard } from "../queries/fetchLeaderboard";
 import { getLanguageColor } from "../queries/languageColor";
 import LeaderboardSkeleton from "../Skeletons/LeaderboardSkeleton";
+import { formatTime } from "../utils/formatTime";
 
 interface LeaderboardUser {
   rank: number;
@@ -119,7 +120,7 @@ function Leaderboard() {
                               </div>
                             </div>
                             <div className="mt-1 flex-1 items-center text-right font-mono text-xs font-medium text-(--color-text-primary) sm:text-sm md:col-span-3 md:text-center md:text-base md:font-semibold">
-                              {user.timeSpent}
+                              {formatTime(user.timeSpent)}
                             </div>
                             <button
                               className="md:hidden"

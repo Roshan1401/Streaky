@@ -55,7 +55,7 @@ export async function fetchLeaderboard(range: range) {
       name: user.name,
       username: user.username,
       avatar_url: user.avatar_url,
-      timeSpent: (user.totalSeconds / 3600).toFixed(1),
+      timeSpent: user.totalSeconds,
       byLanguage: Object.entries(user.byLanguage)
         .sort((a: any, b: any) => b[1] - a[1])
         .map(([lang, secs]: any) => ({
