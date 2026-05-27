@@ -128,7 +128,7 @@ function Leaderboard() {
                                   : "text-(--color-text-primary) md:rounded-lg md:bg-neutral-100 md:py-1 dark:md:bg-neutral-900/50"
                               }`}
                             >
-                              {formatTime(user.timeSpent)}
+                              {formatTime(Math.floor(parseInt(user.timeSpent)))}
                             </div>
                             <button
                               className="md:hidden"

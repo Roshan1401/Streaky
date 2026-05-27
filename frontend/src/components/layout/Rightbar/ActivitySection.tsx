@@ -1,25 +1,56 @@
+import { fetchActivity } from "../../../queries/fetchActivity";
+import useProfileStore from "../../../store/useProfileStore";
+import type { UserActivityStats } from "../../../types/types";
+import { formatTime } from "../../../utils/formatTime";
+import { useState, useEffect } from "react";
 import ActivityCard from "./ActivityCard";
 
 function ActivitySection() {
+  const userId = useProfileStore((state) => state.profile?.id);
+  const [activity, setActivity] = useState<UserActivityStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const loadActivity = async () => {
+      setLoading(true);
+      const data = await fetchActivity(userId);
+      setActivity(data);
+      setLoading(false);
+    };
+    const interval = setInterval(loadActivity, 5 * 60 * 1000); // Refresh every 5 minutes
+    loadActivity();
+    return () => clearInterval(interval);
+  }, [userId]);
+
   const activityData = [
     {
       title: "Rank",
-      value: "—",
+      value: loading ? "..." : activity?.rank ? `#${activity.rank}` : "—",
       description: "Past 24h leaderboard",
     },
     {
       title: "Streak",
-      value: "0 days",
+      value: loading
+        ? "..."
+        : activity?.streak
+          ? `${activity.streak} days`
+          : "0 days",
       description: "Current streak",
     },
     {
       title: "Hours",
-      value: "0m",
+      value: loading
+        ? "..."
+        : activity?.timeSpent
+          ? formatTime(activity.timeSpent)
+          : "0h:00m",
       description: "Past 24h",
     },
     {
       title: "Lines",
-      value: 0,
+      value: "—",
       description: "Past 24h",
     },
   ];

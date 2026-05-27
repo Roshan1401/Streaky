@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../../lib/supabase";
 import ProfileSection from "./ProfileSection";
 import ActivitySection from "./ActivitySection";
 import ActionsSection from "./ActionsSection";
