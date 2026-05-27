@@ -82,14 +82,14 @@ function Leaderboard() {
                           <div className="flex cursor-pointer items-center gap-2 p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6 lg:px-4 lg:py-8 xl:px-8">
                             <div className="col-span-1 flex">
                               <span
-                                className={`flex items-center justify-center rounded-full px-2 py-1 text-xs font-semibold md:size-9 md:text-lg lg:px-3 ${
+                                className={`flex items-center justify-center rounded-full px-2 py-1 text-xs font-semibold drop-shadow-2xl md:size-9 md:text-lg lg:px-3 ${
                                   user.rank === 1
                                     ? "bg-yellow-400 text-yellow-900"
                                     : user.rank === 2
                                       ? "bg-gray-300 text-gray-700"
                                       : user.rank === 3
                                         ? "bg-amber-600 text-amber-100"
-                                        : "bg-neutral-200 text-(--color-text-primary) dark:bg-neutral-800"
+                                        : "border border-(--color-border-secondary) bg-neutral-200 text-(--color-text-primary) dark:bg-neutral-800"
                                 }`}
                               >
                                 {user.rank === 1 ||
@@ -146,7 +146,7 @@ function Leaderboard() {
                             </button>
 
                             <div className="hidden justify-end gap-2 md:col-span-4 md:flex">
-                              {user.byLanguage.map((lang, i) => (
+                              {user.byLanguage.slice(0, 3).map((lang, i) => (
                                 <span
                                   key={i}
                                   className="flex h-10 w-10 items-center justify-center rounded-md p-1.5 text-2xl font-medium"
@@ -159,6 +159,11 @@ function Leaderboard() {
                                   {getLanguageIcon(lang.language)}
                                 </span>
                               ))}
+                              {user.byLanguage.length > 3 && (
+                                <span className="flex h-10 w-10 items-center justify-center rounded-md border border-(--color-border) bg-(--color-bg-secondary) text-sm font-semibold text-(--color-text-secondary)">
+                                  +{user.byLanguage.length - 3}
+                                </span>
+                              )}
                             </div>
                           </div>
                           <div
@@ -179,7 +184,7 @@ function Leaderboard() {
                                 Top Languages
                               </div>
                               <div className="flex flex-wrap gap-2">
-                                {user.byLanguage.map((lang, i) => (
+                                {user.byLanguage.slice(0, 8).map((lang, i) => (
                                   <span
                                     key={i}
                                     className="rounded-md p-1.5 text-xl font-medium"
@@ -192,6 +197,12 @@ function Leaderboard() {
                                     {getLanguageIcon(lang.language)}{" "}
                                   </span>
                                 ))}
+
+                                {user.byLanguage.length > 8 && (
+                                  <span className="flex h-10 w-10 items-center justify-center rounded-md border border-(--color-border) bg-(--color-bg-secondary) text-sm font-semibold text-(--color-text-secondary)">
+                                    +{user.byLanguage.length - 8}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
