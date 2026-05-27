@@ -32,11 +32,7 @@ function ActivitySection() {
     },
     {
       title: "Streak",
-      value: loading
-        ? "..."
-        : activity?.streak
-          ? `${activity.streak} days`
-          : "0 days",
+      value: loading ? "..." : activity?.streak ? `${activity.streak}` : "0",
       description: "Current streak",
     },
     {
@@ -44,8 +40,10 @@ function ActivitySection() {
       value: loading
         ? "..."
         : activity?.timeSpent
-          ? formatTime(activity.timeSpent)
-          : "0h:00m",
+          ? activity.timeSpent <= 3600
+            ? (activity.timeSpent / 60).toFixed(0) + "m"
+            : formatTime(activity.timeSpent)
+          : "0h",
       description: "Past 24h",
     },
     {
