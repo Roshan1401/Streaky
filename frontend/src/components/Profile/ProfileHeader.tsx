@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import banner from "../../assets/banner.jpg";
-import profilImg from "../../assets/image.png";
+import profileImg from "../../assets/image.png";
 import {
   SocialLinkModal,
   platforms,
@@ -9,6 +9,7 @@ import {
 import EditModal from "../Modals/EditModal";
 import { Pencil, Plus } from "lucide-react";
 import useProfileStore from "../../store/useProfileStore";
+import { supabase } from "../../lib/supabase";
 
 function SocialLinkButton({
   svg,
@@ -35,21 +36,35 @@ function SocialLinkButton({
 
 function ProfileHeader() {
   const profileData = useProfileStore((state) => state.profile);
+  const socialLinksFromStore = useProfileStore((state) => state.socialLinks);
 
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([
-    {
-      platform: "github",
-      label: "GitHub",
-      svg: platforms[0].svg,
-      url: "https://github.com/roshanpatil",
-    },
-  ]);
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setzIsEditModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const handleAddLink = (link: SocialLink) => {
+  useEffect(() => {
+    const finalResult = socialLinksFromStore.map((link) => {
+      const platformInfo = platforms.find((p) => p.platform === link.platform);
+      return {
+        platform: link.platform,
+        label: platformInfo ? platformInfo.label : link.platform,
+        svg: platformInfo ? platformInfo.svg : null,
+        url: link.url,
+      };
+    });
+
+    setSocialLinks(finalResult);
+  }, [socialLinksFromStore]);
+
+  const handleAddLink = async (link: SocialLink) => {
     setSocialLinks([...socialLinks, link]);
+
+    await supabase.from("social_links").insert({
+      user_id: profileData?.id,
+      platform: link.platform,
+      url: link.url,
+    });
   };
 
   return (
@@ -63,7 +78,7 @@ function ProfileHeader() {
 
       <EditModal
         isOpen={isEditModalOpen}
-        onClose={() => setzIsEditModalOpen(false)}
+        onClose={() => setIsEditModalOpen(false)}
         initialData={{
           name: profileData?.name || "",
           username: profileData?.username || "",
@@ -81,7 +96,7 @@ function ProfileHeader() {
         </div>
         <div className="lg:-bottom-15.7 absolute -bottom-12 left-4 size-26 transform overflow-hidden rounded-full border-2 border-orange-400 transition-all duration-200 hover:scale-105 md:-bottom-18 md:left-6 md:size-36 xl:-bottom-25 xl:left-1/8 xl:size-50 xl:-translate-x-1/2 2xl:left-30 dark:border-black">
           <img
-            src={profilImg}
+            src={profileImg}
             className="h-full w-full object-cover"
             alt="Profile"
           />
@@ -90,13 +105,13 @@ function ProfileHeader() {
       <div className="relative pt-15 md:pt-22 xl:pt-32">
         <div className="flex flex-col gap-1 px-4 md:gap-2 xl:px-10">
           <span className="text-2xl font-bold text-(--color-text-primary) md:text-3xl xl:text-4xl">
-            Roshan Patil
+            {profileData?.name || "Adam"}
           </span>
           <span className="text-md text-(--color-text-secondary) md:text-lg xl:text-xl">
-            @patilrosha99
+            @{profileData?.username || "@adamBoka"}
           </span>
-          <span className="mt-1 text-lg text-(--color-text-primary) md:mt-2 md:text-xl xl:text-2xl">
-            Learning web dev
+          <span className="mt-1 text-lg text-(--color-text-secondary) md:mt-2 md:text-xl xl:text-2xl">
+            {profileData?.bio || "I am the first man on earth"}
           </span>
           <div className="mt-7 flex flex-col items-center gap-5 md:flex-row">
             <div className="grid grid-cols-3 gap-2 md:flex">
@@ -122,7 +137,7 @@ function ProfileHeader() {
         </div>
         <div className="absolute top-10 right-3 p-4 md:top-17 lg:top-18 lg:right-5 xl:top-28">
           <button
-            onClick={() => setzIsEditModalOpen(true)}
+            onClick={() => setIsEditModalOpen(true)}
             className="flex w-fit cursor-pointer items-center gap-3 rounded-xl border border-(--color-border-secondary) bg-orange-500 px-2 py-2 text-white shadow-2xl transition-all duration-100 hover:scale-105 md:rounded-lg md:px-4"
           >
             <Pencil className="h-4 w-4 xl:h-5 xl:w-5" />
