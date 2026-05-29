@@ -3,6 +3,7 @@ import LeaderboardRow from "../components/leaderboard/LeaderboardRow";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { MedalIcon } from "../assets/Icons/index";
+import { Medal } from "lucide-react";
 import { fetchLeaderboard } from "../queries/fetchLeaderboard";
 import LeaderboardSkeleton from "../Skeletons/LeaderboardSkeleton";
 import { formatTime } from "../utils/formatTime";
@@ -84,18 +85,18 @@ function Leaderboard() {
                               <span
                                 className={`flex items-center justify-center rounded-full px-2 py-1 text-xs font-semibold drop-shadow-2xl md:size-9 md:text-lg lg:px-3 ${
                                   user.rank === 1
-                                    ? "bg-yellow-400 text-yellow-900"
+                                    ? "animate-pulse bg-yellow-100 text-yellow-500 shadow-[0_0_16px_4px_rgba(234,179,8,1)]"
                                     : user.rank === 2
-                                      ? "bg-gray-300 text-gray-700"
+                                      ? "animate-pulse bg-gray-200 text-gray-500 shadow-[0_0_16px_4px_rgba(156,163,175,1)]"
                                       : user.rank === 3
-                                        ? "bg-amber-600 text-amber-100"
+                                        ? "animate-pulse bg-amber-700 text-amber-300 shadow-[0_0_16px_4px_rgba(217,119,6,1)]"
                                         : "border border-(--color-border-secondary) bg-neutral-200 text-(--color-text-primary) dark:bg-neutral-800"
                                 }`}
                               >
                                 {user.rank === 1 ||
                                 user.rank === 2 ||
                                 user.rank === 3 ? (
-                                  <MedalIcon />
+                                  <Medal />
                                 ) : (
                                   user.rank
                                 )}
