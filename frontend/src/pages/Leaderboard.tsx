@@ -2,12 +2,12 @@ import { GithubIcon } from "../assets/Icons";
 import LeaderboardRow from "../components/leaderboard/LeaderboardRow";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { MedalIcon } from "../assets/Icons/index";
 import { Medal } from "lucide-react";
 import { fetchLeaderboard } from "../queries/fetchLeaderboard";
 import LeaderboardSkeleton from "../Skeletons/LeaderboardSkeleton";
 import { formatTime } from "../utils/formatTime";
 import { getLanguageColor, getLanguageIcon } from "../utils/languageConfig";
+import { Link } from "react-router-dom";
 
 interface LeaderboardUser {
   rank: number;
@@ -76,7 +76,8 @@ function Leaderboard() {
                   {leaderboardData.map(
                     (user: LeaderboardUser, index: number) => {
                       return (
-                        <div
+                        <Link
+                          to={`/profile/${user.username}`}
                           key={index}
                           className="mx-2 my-3 rounded-xl border border-(--color-border) bg-(--color-bg-secondary) md:m-0 md:rounded-none md:border-0 md:border-t"
                         >
@@ -111,9 +112,12 @@ function Leaderboard() {
                                 />
                               </div>
                               <div>
-                                <div className="w-20 truncate text-sm font-medium text-(--color-text-primary) hover:underline md:w-fit md:text-lg md:font-semibold md:whitespace-normal">
+                                <Link
+                                  to={`/profile/${user.username}`}
+                                  className="w-20 truncate text-sm font-medium text-(--color-text-primary) hover:underline md:w-fit md:text-lg md:font-semibold md:whitespace-normal"
+                                >
                                   {user.name}
-                                </div>
+                                </Link>
                                 <div className="group justify-left hidden items-center gap-1 md:flex">
                                   <GithubIcon className="inline-block h-4 w-4 text-(--color-text-secondary) group-hover:text-orange-500" />
                                   <span className="text-sm text-(--color-text-secondary) group-hover:text-orange-500">
@@ -207,7 +211,7 @@ function Leaderboard() {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     },
                   )}
