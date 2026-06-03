@@ -29,6 +29,9 @@ interface EditModalProps {
     name?: string;
     username?: string;
     bio?: string;
+    country?: string;
+    state?: string;
+    city?: string;
   };
   onSave?: (data: {
     name: string;
@@ -66,9 +69,22 @@ export default function EditModal({
   const [name, setName] = useState(initialData?.name ?? "");
   const [username, setUsername] = useState(initialData?.username ?? "");
   const [bio, setBio] = useState(initialData?.bio ?? "");
-  const [country, setCountry] = useState<SelectedCountry | null>(null);
-  const [state, setState] = useState<SelectedState | null>(null);
-  const [city, setCity] = useState<SelectedCity | null>(null);
+  const [country, setCountry] = useState<SelectedCountry | null>(() => {
+    if(!initialData?.country) return null;
+    const found = Country.getAllCountries().find(c => c.isoCode === initialData?.country);
+    return found ? { isoCode: found.isoCode, name: found.name } : null;
+  });
+  const [state, setState] = useState<SelectedState | null>(() => {
+    if (!initialData?.state || !country) return null
+    const found = State.getStatesOfCountry(country.isoCode).find(
+      (s) => s.name === initialData.state
+    )
+    return found ? { isoCode: found.isoCode, name: found.name } : null
+  })
+  const [city, setCity] = useState<SelectedCity | null>(() => {
+    if (!initialData?.city) return null
+    return { name: initialData.city }
+  })
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   if (!isOpen) return null;

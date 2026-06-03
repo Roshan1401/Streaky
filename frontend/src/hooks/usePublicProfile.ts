@@ -63,6 +63,9 @@ export function usePublicProfile(username: string) {
           username: profileFields.username,
           bio: profileFields.bio,
           avatar_url: profileFields.avatar_url,
+          country: profileFields.country,
+          state: profileFields.state,
+          city: profileFields.city,
         },
         socialLinks: social_links ?? [],
       });

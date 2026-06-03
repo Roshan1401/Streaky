@@ -94,6 +94,30 @@ function ProfileHeader({ profileData }: { profileData: PublicProfile | null }) {
     }
   };
 
+  const handleOnSaveEdit = async (data: {
+    name: string;
+    username: string;
+    bio: string;
+    country: string;
+    state: string;
+    city: string;
+  }) => {
+    if (!profile?.id) return;
+    const { error } = await supabase.from("profiles").update({
+      name: data.name,
+      username: data.username,
+      bio: data.bio,
+      country: data.country,
+      state: data.state,
+      city: data.city,
+    }).eq("id", profile.id);
+
+    if (error) {
+      console.error("Failed to update profile:", error.message);
+    }
+    setIsEditModalOpen(false);
+  }
+
   return (
     <div>
       <SocialLinkModal
@@ -112,7 +136,11 @@ function ProfileHeader({ profileData }: { profileData: PublicProfile | null }) {
           name: profile?.name || "",
           username: profile?.username || "",
           bio: profile?.bio || "",
+          country: profile?.country || "",
+          state: profile?.state || "",
+          city: profile?.city || "",
         }}
+        onSave={handleOnSaveEdit}
       />
 
       <div className="relative">
