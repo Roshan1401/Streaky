@@ -24,7 +24,7 @@ interface PublicProfile {
     | null;
 }
 interface PublicProfileStats {
-  total_seconds: number;
+  total_hours: number;
   total_languages: number;
   current_streak: number;
   avg_hours : number;
