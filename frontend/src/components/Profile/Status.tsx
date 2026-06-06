@@ -5,6 +5,7 @@ import {
   CodeIcon,
   ChartIcon,
 } from "../../assets/Icons";
+import type { PublicProfileStats } from "../../types/types";
 
 interface StatusItemProps {
   label: string;
@@ -34,12 +35,12 @@ function StatusItem({ label, value, unit, icon }: StatusItemProps) {
   );
 }
 
-function  Status() {
+function  Status({stats}: {stats: PublicProfileStats | null}) {
   return (
     <div className="grid grid-cols-1 gap-5 px-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-4 xl:gap-5 xl:px-10">
       <StatusItem
         label="Steak"
-        value={4}
+        value={stats?.current_streak || 0}
         unit="days"
         icon={
           <FlameIcon className="h-4 w-4 shrink-0 text-orange-500 xl:h-5 xl:w-5" />
@@ -47,7 +48,7 @@ function  Status() {
       />
       <StatusItem
         label="Total Hours"
-        value={64}
+        value={stats?.total_hours || 0}
         unit="hours"
         icon={
           <ClockIcon className="h-4 w-4 shrink-0 text-blue-500 xl:h-5 xl:w-5" />
@@ -55,7 +56,7 @@ function  Status() {
       />
       <StatusItem
         label="Languages"
-        value={15}
+        value={stats?.total_languages || 0}
         unit="languages"
         icon={
           <CodeIcon className="h-4 w-4 shrink-0 text-purple-500 xl:h-5 xl:w-5" />
@@ -63,7 +64,7 @@ function  Status() {
       />
       <StatusItem
         label="Daily Avg"
-        value={1}
+        value={stats?.avg_hours.toFixed(1) || 0}
         unit="hours"
         icon={
           <ChartIcon className="h-4 w-4 shrink-0 text-emerald-500 xl:h-5 xl:w-5" />
