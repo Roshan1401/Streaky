@@ -1,6 +1,6 @@
-import type { range } from "../types/types";
+import type { Range } from "../types/types";
 
-export const getStartRange = (range: range): string => {
+export const getStartRange = (range: Range): string => {
   const ms = {
     "24h": 24 * 60 * 60 * 1000,
     "7day": 7 * 24 * 60 * 60 * 1000,

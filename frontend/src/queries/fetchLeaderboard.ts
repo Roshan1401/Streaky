@@ -1,8 +1,8 @@
 import { supabase } from "../lib/supabase";
-import type { range } from "../types/types";
+import type { Range } from "../types/types";
 import { getStartRange } from "./getStartRange";
 
-export async function fetchLeaderboard(range: range) {
+export async function fetchLeaderboard(range: Range) {
   const { data, error } = await supabase
     .from("sessions")
     .select(

@@ -1,4 +1,4 @@
-type range = "24h" | "7day" | "30day";
+type Range = "24h" | "7day" | "30day";
 interface UserActivityStats {
   rank: number | null;
   streak: number;
@@ -37,7 +37,7 @@ interface ChartProps {
 }
 
 export type {
-  range,
+  Range,
   UserActivityStats,
   PublicProfile,
   PublicProfileStats,
