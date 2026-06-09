@@ -5,20 +5,20 @@ export function useExtensionStatus(userId: string) {
   const [isActive, setIsActive] = useState(false);
 
   const fetchStatus = async () => {
-    supabase
+    const { data, error } = await supabase
       .from("profiles")
       .select("is_extension_active")
       .eq("id", userId)
-      .single()
-      .then(({ data, error }) => {
-        if (error) {
-          console.error("Error fetching extension status:", error);
-          setIsActive(false);
-          return;
-        }
-        setIsActive(data?.is_extension_active);
-      });
+      .single();
+
+    if (error) {
+      console.error("Error fetching extension status:", error);
+      setIsActive(false);
+      return;
+    }
+    setIsActive(data?.is_extension_active ?? false);
   };
+
   useEffect(() => {
     if (!userId) return;
 
@@ -45,4 +45,3 @@ export function useExtensionStatus(userId: string) {
   }, [userId]);
   return { isActive, fetchStatus };
 }
-supabase;
