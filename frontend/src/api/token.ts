@@ -1,7 +1,4 @@
-import { data } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import useTokenStore from "../store/useTokenStore";
-import useUserStore from "../store/useUserStore";
 
 interface ApiToken {
   user_id: string;
@@ -9,7 +6,9 @@ interface ApiToken {
   revoked: boolean;
 }
 
-export async function getApiToken(userId: string) {
+export async function getApiToken(
+  userId: string,
+): Promise<string | null> {
   const { data, error } = await supabase
     .from("api_tokens")
     .select("*")
@@ -18,14 +17,16 @@ export async function getApiToken(userId: string) {
     .single();
 
   if (error) {
-    console.error("Error while fetching token ", error);
-    return;
+    console.error("Error fetching token:", error.message);
+    return null;
   }
 
-  return data?.token || null;
+  return data?.token ?? null;
 }
 
-export async function createApiToken(userId: string) {
+export async function createApiToken(
+  userId: string,
+): Promise<string | null> {
   const token = crypto.randomUUID();
 
   const { data, error } = await supabase
@@ -39,6 +40,7 @@ export async function createApiToken(userId: string) {
     .single();
 
   if (error) {
+    console.error("Error creating token:", error.message);
     return null;
   }
 
