@@ -1,7 +1,10 @@
 import { supabase } from "../lib/supabase";
 import { getStartRange } from "./getStartRange";
+import type { UserActivityStats } from "../types/types";
 
-export async function fetchActivity(userId: string) {
+export async function fetchActivity(
+  userId: string,
+): Promise<UserActivityStats | null> {
   try {
     const { data: userSession, error: checkError } = await supabase
       .from("sessions")
@@ -21,6 +24,8 @@ export async function fetchActivity(userId: string) {
       .gte("recorded_at", getStartRange("24h"));
 
     if (allSessionError) throw allSessionError;
+
+    if (!allSessions) return { rank: null, streak: 0, timeSpent: 0 };
 
     const userMap: Record<string, number> = {};
 
