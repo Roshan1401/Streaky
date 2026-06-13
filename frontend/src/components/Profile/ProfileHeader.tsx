@@ -11,8 +11,8 @@ import { supabase } from "../../lib/supabase";
 import type { PublicProfile } from "../../types/types";
 import useProfileStore from "../../store/useProfileStore";
 
-interface ProfileHeaderProps{
-  profileData : PublicProfile | null;
+interface ProfileHeaderProps {
+  profileData: PublicProfile | null;
 }
 
 const EMPTY_SOCIAL_LINKS: { platform: string; url: string }[] = [];
@@ -40,16 +40,16 @@ function SocialLinkButton({
   );
 }
 
-function ProfileHeader({profileData } :  ProfileHeaderProps) {
-  const ownProfile = useProfileStore((state) => state.profile)
-  const isOwnProfile = ownProfile?.id === profileData?.profile?.id
-  const profile = isOwnProfile ? ownProfile : profileData?.profile ?? null
+function ProfileHeader({ profileData }: ProfileHeaderProps) {
+  const ownProfile = useProfileStore((state) => state.profile);
+  const isOwnProfile = ownProfile?.id === profileData?.profile?.id;
+  const profile = isOwnProfile ? ownProfile : (profileData?.profile ?? null);
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const setProfile = useProfileStore((state) => state.setProfile)
+  const setProfile = useProfileStore((state) => state.setProfile);
 
   useEffect(() => {
     const links = profileData?.socialLinks ?? EMPTY_SOCIAL_LINKS;
@@ -114,28 +114,29 @@ function ProfileHeader({profileData } :  ProfileHeaderProps) {
 
     const updatedFields: Record<string, string> = {};
 
-  if (data.name !== profile.name) updatedFields.name = data.name;
-  if (data.username !== profile.username) updatedFields.username = data.username;
-  if (data.bio !== profile.bio) updatedFields.bio = data.bio;
-  if (data.country !== profile.country) updatedFields.country = data.country;
-  if (data.state !== profile.state) updatedFields.state = data.state;
-  if (data.city !== profile.city) updatedFields.city = data.city;
+    if (data.name !== profile.name) updatedFields.name = data.name;
+    if (data.username !== profile.username)
+      updatedFields.username = data.username;
+    if (data.bio !== profile.bio) updatedFields.bio = data.bio;
+    if (data.country !== profile.country) updatedFields.country = data.country;
+    if (data.state !== profile.state) updatedFields.state = data.state;
+    if (data.city !== profile.city) updatedFields.city = data.city;
 
     if (Object.keys(updatedFields).length === 0) {
       setIsEditModalOpen(false);
       return;
     }
-  
-    const { error } = await supabase
-    .from("profiles")
-    .update(updatedFields)
-    .eq("id", profile.id);
 
-  if (error) {
-    console.error("Failed to update profile:", error.message);
-    return;
-  }
-  
+    const { error } = await supabase
+      .from("profiles")
+      .update(updatedFields)
+      .eq("id", profile.id);
+
+    if (error) {
+      console.error("Failed to update profile:", error.message);
+      return;
+    }
+
     if (isOwnProfile) {
       setProfile({
         ...ownProfile!,
@@ -143,7 +144,7 @@ function ProfileHeader({profileData } :  ProfileHeaderProps) {
       });
     }
     setIsEditModalOpen(false);
-  }
+  };
 
   return (
     <div>
@@ -173,7 +174,7 @@ function ProfileHeader({profileData } :  ProfileHeaderProps) {
       <div className="relative">
         <div className="h-40 overflow-hidden border-b border-(--color-border) bg-black md:h-50 xl:h-70">
           <img
-            src={banner}
+            src={profile?.banner_url}
             className="h-full w-full object-cover"
             alt="Banner"
           />

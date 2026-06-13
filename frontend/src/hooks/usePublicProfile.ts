@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import type { PublicProfile , PublicProfileStats } from "../types/types";
-
-
+import type { PublicProfile, PublicProfileStats } from "../types/types";
 
 interface DailyStats {
   date: string;
@@ -56,6 +54,7 @@ export function usePublicProfile(username: string) {
           username: profileFields.username,
           bio: profileFields.bio,
           avatar_url: profileFields.avatar_url,
+          banner_url: profileFields.banner_url,
           country: profileFields.country,
           state: profileFields.state,
           city: profileFields.city,
@@ -63,28 +62,32 @@ export function usePublicProfile(username: string) {
         socialLinks: social_links ?? [],
       });
 
-      
-      const dailyData = dailyStatsResult.data?.map((item) => ({
-        date: item.date,
-        hours: item.total_seconds / 3600,
-      })) ?? [];
-      
-      
-      const totalHours = stateResult.data?.total_seconds ? stateResult.data.total_seconds / 3600 : 0;
+      const dailyData =
+        dailyStatsResult.data?.map((item) => ({
+          date: item.date,
+          hours: item.total_seconds / 3600,
+        })) ?? [];
+
+      const totalHours = stateResult.data?.total_seconds
+        ? stateResult.data.total_seconds / 3600
+        : 0;
       const activeDays = dailyData.length;
       const avgHours = activeDays > 0 ? totalHours / activeDays : 0;
 
-      setStats(stateResult.data ? {
-        total_hours: totalHours,
-        current_streak: stateResult.data.current_streak,
-        total_languages: stateResult.data.total_languages,
-        avg_hours: avgHours,
-        language_breakdown: stateResult.data.language_breakdown,
-      } : null);
+      setStats(
+        stateResult.data
+          ? {
+              total_hours: totalHours,
+              current_streak: stateResult.data.current_streak,
+              total_languages: stateResult.data.total_languages,
+              avg_hours: avgHours,
+              language_breakdown: stateResult.data.language_breakdown,
+            }
+          : null,
+      );
 
       setHeatmapData(dailyData);
       setLoading(false);
-
     };
 
     fetchAll();

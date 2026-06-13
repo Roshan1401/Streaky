@@ -8,6 +8,7 @@ interface ProfileState {
     username: string;
     bio: string | null;
     avatar_url: string;
+    banner_url: string;
     country: string | null;
     state: string | null;
     city: string | null;
