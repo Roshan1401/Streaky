@@ -1,12 +1,11 @@
-type Tab = "Lang Chart" | "Top Repo";
-
+import type { Tab } from "../../../types/types";
 interface ProfileStateRowProps {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
 }
 
 function ProfileStateRow({ activeTab, onTabChange }: ProfileStateRowProps) {
-  const tabs: Tab[] = ["Lang Chart", "Top Repo"];
+  const tabs: Tab[] = ["Lang Chart", "Badges"];
 
   return (
     <div className="flex flex-row items-center rounded-full border border-neutral-700 bg-neutral-900 p-1.5">
