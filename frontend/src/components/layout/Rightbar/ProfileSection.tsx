@@ -1,26 +1,25 @@
-import profilImg from "../../../assets/image.png";
 import { ExternalLinkIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import useProfileStore from "../../../store/useProfileStore";
 
 function ProfileSection() {
   const profile = useProfileStore((state) => state.profile);
-
+  console.log("Profile data in ProfileSection:", profile?.avatar_url);
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="size-25 overflow-hidden rounded-full border border-orange-400 xl:size-30 dark:border-black">
         <img
-          src={profilImg}
+          src={profile?.avatar_url}
           className="h-full w-full object-cover"
           alt="Profile"
         />
       </div>
       <div className="flex flex-col items-center gap-1">
         <span className="text-xl font-semibold text-(--color-text-primary) xl:text-2xl">
-          {profile?.name || "Adom"}
+          {profile?.name}
         </span>
         <span className="xl:text-md text-sm text-(--color-text-secondary)">
-          {profile?.username || "@adom"}
+          {profile?.username}
         </span>
         <span className="text-md mt-2 text-(--color-text-secondary) xl:text-lg">
           {profile?.bio}
