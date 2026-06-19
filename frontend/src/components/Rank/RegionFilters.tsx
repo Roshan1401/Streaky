@@ -1,5 +1,7 @@
+import { Flag, Building2, MapPinned } from "lucide-react";
+import { CustomSelect } from "./CustomSelect";
 import type { SelectOption } from "../../types/types";
-import Select from "react-select";
+import { useState } from "react";
 
 interface RegionFiltersProps {
   countryOptions: SelectOption[];
@@ -12,6 +14,7 @@ interface RegionFiltersProps {
   onStateChange: (value: string | null) => void;
   onCityChange: (value: string | null) => void;
 }
+type FieldKey = "country" | "state" | "city";
 
 export function RegionFilters({
   countryOptions,
@@ -20,58 +23,52 @@ export function RegionFilters({
   selectedCountry,
   selectedState,
   selectedCity,
+
   onCountryChange,
   onStateChange,
   onCityChange,
 }: RegionFiltersProps) {
+  const [activeField, setActiveField] = useState<FieldKey>("country");
+
   return (
-    <div className="flex gap-4">
-      <div>
-        <label className="block text-sm font-medium text-(--color-text-secondary) sm:mb-2">
-          Country
-        </label>
-        <Select
-          options={countryOptions}
-          value={countryOptions.find(
-            (option) => option.value === selectedCountry,
-          )}
-          onChange={(option) => onCountryChange(option?.value ?? null)}
-          className="w-48"
-          classNamePrefix="select"
-          placeholder="Select Country"
-          isClearable
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-(--color-text-secondary) sm:mb-2">
-          State
-        </label>
-        <Select
-          options={stateOptions}
-          value={stateOptions.find((option) => option.value === selectedState)}
-          onChange={(option) => onStateChange(option?.value ?? null)}
-          className="w-48"
-          classNamePrefix="select"
-          placeholder="Select State"
-          isDisabled={!selectedCountry}
-          isClearable
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-(--color-text-secondary) sm:mb-2">
-          City
-        </label>
-        <Select
-          options={cityOptions}
-          value={cityOptions.find((option) => option.value === selectedCity)}
-          onChange={(option) => onCityChange(option?.value ?? null)}
-          className="w-48"
-          classNamePrefix="select"
-          placeholder="Select City"
-          isDisabled={!selectedState}
-          isClearable
-        />
-      </div>
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <CustomSelect
+        fieldKey="country"
+        activeField={activeField}
+        setActiveField={setActiveField}
+        label="Country"
+        icon={<Flag className="size-3.5" />}
+        options={countryOptions}
+        value={selectedCountry}
+        onChange={onCountryChange}
+        placeholder="Select country"
+      />
+
+      <CustomSelect
+        fieldKey="state"
+        activeField={activeField}
+        setActiveField={setActiveField}
+        label="State"
+        icon={<Building2 className="size-3.5" />}
+        options={stateOptions}
+        value={selectedState}
+        onChange={onStateChange}
+        placeholder="Select state"
+        disabled={!selectedCountry}
+      />
+
+      <CustomSelect
+        fieldKey="city"
+        activeField={activeField}
+        setActiveField={setActiveField}
+        label="City"
+        icon={<MapPinned className="size-3.5" />}
+        options={cityOptions}
+        value={selectedCity}
+        onChange={onCityChange}
+        placeholder="Select city"
+        disabled={!selectedState}
+      />
     </div>
   );
 }

@@ -1,18 +1,19 @@
-import Select from "react-select";
-import type { SelectOption } from "../../types/types";
+import { Globe2 } from "lucide-react";
+import { CustomSelect } from "./CustomSelect";
 import { Country } from "country-state-city";
+import type { SelectOption } from "../../types/types";
 
 const globalCountryOptions: SelectOption[] = [
-  { label: "All Countries", value: "all" },
-  ...Country.getAllCountries().map((country) => ({
-    label: country.name,
-    value: country.isoCode,
+  { label: "All countries", value: "all" },
+  ...Country.getAllCountries().map((c) => ({
+    label: c.name,
+    value: c.isoCode,
   })),
 ];
 
 interface GlobalFiltersProps {
-  selectedCountry: string | null;
-  onCountryChange: (country: string) => void;
+  selectedCountry: string;
+  onCountryChange: (value: string) => void;
 }
 
 export function GlobalFilters({
@@ -20,17 +21,14 @@ export function GlobalFilters({
   onCountryChange,
 }: GlobalFiltersProps) {
   return (
-    <div>
-      <label className="block text-sm font-medium text-(--color-text-secondary) sm:mb-2">
-        Country
-      </label>
-      <Select
+    <div className="grid grid-cols-1 gap-3 sm:max-w-xs">
+      <CustomSelect
+        label="Country"
+        icon={<Globe2 className="size-3.5" />}
         options={globalCountryOptions}
-        value={globalCountryOptions.find((o) => o.value === selectedCountry)}
-        onChange={(opt) => onCountryChange(opt ? opt.value : "all")}
-        className="w-48"
-        classNamePrefix="select"
-        placeholder="Select Country"
+        value={selectedCountry}
+        onChange={(v) => onCountryChange(v ?? "all")}
+        placeholder="All countries"
       />
     </div>
   );
