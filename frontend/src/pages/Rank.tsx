@@ -184,7 +184,7 @@ function Rank() {
       </div>
 
       <div className="w-full rounded-md border border-zinc-300 dark:border-zinc-700">
-        <div className="flex items-start justify-between gap-4 rounded-t-md border-b border-zinc-300 bg-(--color-bg-secondary) px-5 py-4 dark:border-zinc-700">
+        <div className="flex items-start justify-between gap-4 rounded-t-md border-b border-zinc-300 px-5 py-4 dark:border-zinc-700">
           <img
             src={image}
             className="size-12 shrink-0 rounded-full border border-zinc-300 dark:border-zinc-700"
@@ -206,7 +206,6 @@ function Rank() {
               className="mx-2 my-3 rounded-xl border border-(--color-border) md:m-0 md:rounded-none md:border-0 md:border-t"
             >
               <div className="flex cursor-pointer items-center gap-2 border-t border-(--color-border) p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6 lg:px-4 lg:py-8 xl:px-8">
-                {/* Rank */}
                 <div className="col-span-1 flex">
                   <span
                     className={`flex items-center justify-center rounded-full px-2 py-1 text-xs font-semibold drop-shadow-2xl md:size-9 md:text-lg lg:px-3 ${
@@ -227,7 +226,6 @@ function Rank() {
                   </span>
                 </div>
 
-                {/* Developer */}
                 <div className="col-span-4 flex items-center gap-3">
                   <div className="size-8 overflow-hidden rounded-full transition-all duration-75 ease-out hover:scale-103 md:size-11 dark:border-black">
                     <img
@@ -249,7 +247,6 @@ function Rank() {
                   </div>
                 </div>
 
-                {/* Time Spent */}
                 <div
                   className={`mt-1 flex-1 items-center text-right font-mono text-xs font-medium sm:text-sm md:col-span-2 md:text-center md:text-base md:font-semibold ${
                     user.rank === 1
@@ -262,13 +259,12 @@ function Rank() {
 
                 <div className="col-span-3 mt-1 flex items-center justify-center gap-1 md:mt-0">
                   <span
-                    className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${
-                      user.streakDays >= 5
-                        ? "border-orange-300 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-300"
-                        : "border-(--color-border-secondary) bg-(--color-bg-secondary) text-(--color-text-secondary)"
-                    }`}
+                    className={`flex items-center justify-center gap-1 text-xs font-medium`}
                   >
-                    <Flame className="size-3.5" />
+                    <Flame
+                      size={20}
+                      className="fill-orange-500 text-orange-500"
+                    />
                     {user.streakDays}d
                   </span>
                 </div>
