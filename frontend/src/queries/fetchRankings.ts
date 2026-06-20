@@ -1,7 +1,7 @@
 import type { Period, RankUser } from "../types/types";
 import { supabase } from "../lib/supabase";
 
-interface RankingFilters {
+export interface RankingFilters {
   mode: "global" | "region";
   period: Period;
   country: string | null;
