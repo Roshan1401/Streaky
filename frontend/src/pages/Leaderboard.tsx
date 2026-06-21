@@ -24,9 +24,16 @@ interface LeaderboardUser {
 
 function Leaderboard() {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
-  const [activeRow, setActiveRow] = useState<Range>("24h");
+  const [activeRow, setActiveRow] = useState<Range>(() => {
+    const saved = localStorage.getItem("leaderboardActiveRow") as Range;
+    return saved || "24h";
+  });
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    localStorage.setItem("leaderboardActiveRow", activeRow);
+  }, [activeRow]);
 
   useEffect(() => {
     const fetchData = async () => {
