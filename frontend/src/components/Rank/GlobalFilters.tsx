@@ -7,7 +7,7 @@ const globalCountryOptions: SelectOption[] = [
   { label: "All countries", value: "all" },
   ...Country.getAllCountries().map((c) => ({
     label: c.name,
-    value: c.isoCode,
+    value: c.name,
   })),
 ];
 
@@ -27,7 +27,9 @@ export function GlobalFilters({
         icon={<Globe2 className="size-3.5" />}
         options={globalCountryOptions}
         value={selectedCountry}
-        onChange={(v) => onCountryChange(v ?? "all")}
+        onChange={(v) => {
+          onCountryChange(v ?? "all");
+        }}
         placeholder="All countries"
       />
     </div>
