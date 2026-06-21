@@ -8,7 +8,7 @@ interface CustomSelectProps {
   setActiveField?: (field: FieldKey) => void;
   options: SelectOption[];
   value: string | null;
-  onChange: (value: string | null) => void;
+  onChange: (value: string | "all") => void;
   placeholder?: string;
   icon?: React.ReactNode;
   label: string;
@@ -86,7 +86,7 @@ export function CustomSelect({
               className="size-3.5 text-(--color-text-secondary) hover:text-(--color-text-primary)"
               onClick={(e) => {
                 e.stopPropagation();
-                onChange(null);
+                onChange("all");
               }}
             />
           )}

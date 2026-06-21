@@ -11,9 +11,9 @@ interface RegionFiltersProps {
   selectedCity: string | null;
   activeField: FieldKey;
   setActiveField: (field: FieldKey) => void;
-  onCountryChange: (value: string | null) => void;
-  onStateChange: (value: string | null) => void;
-  onCityChange: (value: string | null) => void;
+  onCountryChange: (value: string | "all") => void;
+  onStateChange: (value: string | "all") => void;
+  onCityChange: (value: string | "all") => void;
 }
 
 export function RegionFilters({
