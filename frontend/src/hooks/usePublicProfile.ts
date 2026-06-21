@@ -69,7 +69,7 @@ export function usePublicProfile(username: string) {
         })) ?? [];
 
       const totalHours = stateResult.data?.total_seconds
-        ? stateResult.data.total_seconds / 3600
+        ? Math.floor((stateResult.data.total_seconds / 3600) * 10) / 10
         : 0;
       const activeDays = dailyData.length;
       const avgHours = activeDays > 0 ? totalHours / activeDays : 0;
