@@ -232,18 +232,18 @@ function Rank() {
       </div>
 
       {showFilters && (
-        <div>
+        <div className="fixed inset-0 z-50 md:hidden">
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowFilters(false)}
           />
 
-          <div className="absolute right-0 bottom-0 left-0 rounded-t-2xl border-t border-zinc-300 bg-(--color-bg-primary) dark:border-zinc-700">
-            <div className="flex justify-center pt-3 pb-1">
+          <div className="absolute right-0 bottom-0 left-0 flex max-h-[85vh] flex-col rounded-t-2xl border-t border-zinc-300 bg-(--color-bg-primary) dark:border-zinc-700">
+            <div className="flex shrink-0 justify-center pt-3 pb-1">
               <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-700" />
             </div>
 
-            <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-zinc-800">
+            <div className="flex shrink-0 items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-zinc-800">
               <div>
                 <h3 className="text-base font-semibold text-(--color-text-primary)">
                   Filters
@@ -261,7 +261,19 @@ function Rank() {
                 <X className="size-5" />
               </button>
             </div>
-            <div className="px-5 py-5">{FiltersComponent}</div>
+
+            <div className="flex-1 overflow-y-auto px-5 py-5">
+              {FiltersComponent}
+            </div>
+
+            <div className="shrink-0 border-t border-zinc-200 px-5 py-4 dark:border-zinc-800">
+              <button
+                onClick={() => setShowFilters(false)}
+                className="w-full rounded-lg bg-orange-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600 active:bg-orange-700"
+              >
+                Apply Filters
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -142,12 +142,23 @@ export function RankUser({ user, mode, isAllCountries }: RankUserProps) {
 
         <div className="border-t border-(--color-border) px-4 py-3">
           <div className="flex items-center gap-1.5">
-            <MapPin className="size-3.5 shrink-0 text-(--color-text-secondary)" />
-            <span className="text-sm text-(--color-text-secondary)">
-              {[user.city, user.state, user.country]
-                .filter(Boolean)
-                .join(", ") || "—"}
-            </span>
+            {mode === "global" && isAllCountries ? (
+              <>
+                <CountryFlag countryName={user.country} />
+                <span className="text-sm text-(--color-text-secondary)">
+                  {user.country || "—"}
+                </span>
+              </>
+            ) : (
+              <>
+                <MapPin className="size-3.5 shrink-0 text-(--color-text-secondary)" />
+                <span className="text-sm text-(--color-text-secondary)">
+                  {[user.city, user.state, user.country]
+                    .filter(Boolean)
+                    .join(", ") || "—"}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
