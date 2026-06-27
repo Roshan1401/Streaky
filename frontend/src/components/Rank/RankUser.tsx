@@ -6,6 +6,8 @@ import { GithubIcon } from "../../assets/Icons";
 import type { RankUser } from "../../types/types";
 import type { Mode } from "../../types/types";
 import { CountryFlag } from "../../utils/CountryFlag";
+import useProfileStore from "../../store/useProfileStore";
+import You from "../You";
 interface RankUserProps {
   user: RankUser;
   mode: Mode;
@@ -14,13 +16,15 @@ interface RankUserProps {
 
 export function RankUser({ user, mode, isAllCountries }: RankUserProps) {
   const [openDropdown, setOpenDropdown] = useState(false);
+  const userId = useProfileStore((state) => state.profile?.id);
+  const isCurrentUser = user.id === userId;
 
   return (
     <div className="mx-2 my-3 rounded-xl border border-(--color-border) md:m-0 md:rounded-none md:border-0 md:border-t">
-      <div className="flex cursor-pointer items-center gap-2 border-(--color-border) p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6 lg:px-4 lg:py-8 xl:px-8">
+      <div className="flex cursor-pointer items-center gap-2 border-(--color-border) p-3 transition-colors hover:bg-(--color-bg-secondary) sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:px-8 md:py-6 lg:px-4 lg:py-5 xl:px-8">
         <div className="col-span-1 flex shrink-0">
           <span
-            className={`flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold drop-shadow-2xl md:size-9 md:text-lg ${
+            className={`drop-shadow- flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
               user.rank === 1
                 ? "animate-pulse bg-yellow-100 text-yellow-500 shadow-[0_0_16px_4px_rgba(234,179,8,1)]"
                 : user.rank === 2
@@ -30,11 +34,7 @@ export function RankUser({ user, mode, isAllCountries }: RankUserProps) {
                     : "border border-(--color-border-secondary) bg-neutral-200 text-(--color-text-primary) dark:bg-neutral-800"
             }`}
           >
-            {user.rank <= 3 ? (
-              <Medal className="size-4 md:size-5" />
-            ) : (
-              user.rank
-            )}
+            {user.rank}
           </span>
         </div>
 
@@ -67,7 +67,10 @@ export function RankUser({ user, mode, isAllCountries }: RankUserProps) {
                     ? `${user.name.slice(0, 15)}...`
                     : user.name}
                 </span>
-                <span className="hidden md:inline">{user.name}</span>
+                <div className="hidden items-center gap-2 md:flex">
+                  <span className="hidden md:inline">{user.name}</span>
+                  {isCurrentUser && <You />}
+                </div>
               </Link>
               <div className="group hidden items-center gap-1 md:flex">
                 <GithubIcon className="inline-block h-4 w-4 text-(--color-text-secondary) group-hover:text-orange-500" />

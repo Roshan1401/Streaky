@@ -6,11 +6,12 @@ import type { Range, LeaderboardUser } from "../types/types";
 import { fetchActivity } from "../queries/fetchActivity";
 import useProfileStore from "../store/useProfileStore";
 import UserRow from "../components/leaderboard/UserRow";
+import useUserStore from "../store/useUserStore";
 
 function Leaderboard() {
-  const userProfile = useProfileStore((state) => state.profile);
+  const { profile: userProfile, loading: profileLoading } = useProfileStore();
   const userId = userProfile?.id;
-  const [currentUser, setCurrentUser] = useState<LeaderboardUser | null>(null);
+  const { user, loading: userLoading } = useUserStore();
   const [activeRow, setActiveRow] = useState<Range>(() => {
     const saved = localStorage.getItem("leaderboardActiveRow") as Range;
     return saved || "24h";
@@ -20,39 +21,48 @@ function Leaderboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
-  const getUserRank = async () => {
-    if (!userId) return;
-    const data = await fetchActivity(userId, activeRow);
-    setUserRank(data?.rank || null);
-  };
+  const currentUser =
+    leaderboardData.find((u) => u.username === userProfile?.username) ?? null;
 
   useEffect(() => {
-    localStorage.setItem("leaderboardActiveRow", activeRow);
-    getUserRank();
-  }, [activeRow]);
+    if (userLoading) return;
+    if (user && profileLoading) return;
 
-  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const data = await fetchLeaderboard(activeRow);
-      const filteredData = data.filter(
-        (user) => user.username !== userProfile?.username,
-      );
-      setLeaderboardData(filteredData);
-      const currentUserData = data.find(
-        (user) => user.username === userProfile?.username,
-      );
-      setCurrentUser(currentUserData || null);
+      setLeaderboardData(data);
       setLoading(false);
     };
 
     fetchData();
-    const interval = setInterval(() => {
-      fetchData();
-    }, 300000); // Fetch new data every 5 minutes
-
+    const interval = setInterval(fetchData, 300000);
     return () => clearInterval(interval);
-  }, [activeRow]);
+  }, [activeRow, userLoading, profileLoading, user?.id]);
+
+  useEffect(() => {
+    if (userLoading) return;
+
+    if (!user || !userId) {
+      setUserRank(null);
+      return;
+    }
+
+    if (profileLoading) return;
+
+    const rankFromLeaderboard = currentUser?.rank ?? null;
+    if (rankFromLeaderboard) {
+      setUserRank(rankFromLeaderboard);
+      return;
+    }
+
+    const fetchRank = async () => {
+      const data = await fetchActivity(userId, activeRow);
+      setUserRank(data?.rank ?? null);
+    };
+
+    fetchRank();
+  }, [userId, activeRow, userLoading, profileLoading, currentUser?.rank]);
 
   return (
     <>
@@ -63,7 +73,7 @@ function Leaderboard() {
         {loading ? (
           <LeaderboardSkeleton />
         ) : (
-          <div className="mt-8">
+          <div className="mt-8 mb-15 lg:mb-0">
             <div className="mt-5 overflow-hidden rounded-2xl border border-(--color-border) bg-white dark:bg-[#0b0809]">
               <div className="flex flex-col gap-4 border-b border-(--color-border) px-6 py-4 md:flex-row md:items-center md:justify-between">
                 <div className="max-w-sm text-center text-2xl font-medium text-(--color-text-primary) md:text-left">
@@ -73,7 +83,7 @@ function Leaderboard() {
                   is surpassing his limits right here, right now.
                   <div className="mt-1 flex flex-col gap-1 text-sm font-medium text-(--color-text-secondary) md:flex-row md:gap-4">
                     <span className="">showing top 100 developers.</span>
-                    <span>your rank:#{userRank}</span>
+                    <span>your rank: #{userRank}</span>
                   </div>
                 </div>
 

@@ -1,16 +1,27 @@
 import { useMemo, useState, useEffect } from "react";
 import { FloatingTabs } from "../components/Rank/FloatingTabs";
-import { Globe, MapPin, SlidersHorizontal, X } from "lucide-react";
+import {
+  Globe,
+  MapPin,
+  SlidersHorizontal,
+  X,
+  Users,
+  Trophy,
+  TrendingUp,
+  Clock3,
+} from "lucide-react";
 import image from "../assets/image.png";
 import { PeriodSelect } from "../components/Rank/PeriodSelect";
 import { GlobalFilters } from "../components/Rank/GlobalFilters";
 import { RegionFilters } from "../components/Rank/RegionFilters";
 import { useLocationFilter } from "../hooks/useLocationFilter";
+import { useUserGlobalRank } from "../hooks/useUserGlobalRank";
 import useProfileStore from "../store/useProfileStore";
 import type { FieldKey, Mode, Period } from "../types/types";
 import { useRankings } from "../hooks/useRankings";
 import { RankSkeleton } from "../Skeletons/RankSkeleton";
 import { RankUser as RankUserComponent } from "../components/Rank/RankUser";
+import useUserStore from "../store/useUserStore";
 
 function Rank() {
   const [mode, setMode] = useState<Mode>(() => {
@@ -30,6 +41,7 @@ function Rank() {
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const { profile } = useProfileStore();
+  const { user } = useUserStore();
 
   useEffect(() => {
     localStorage.setItem("rankMode", mode);
@@ -102,6 +114,15 @@ function Rank() {
     period,
     ...rankingFilters,
   });
+
+  // user own rank data
+
+  const { rank: userRank, loading: userRankLoading } = useUserGlobalRank(
+    profile?.id || "",
+    { mode, period, ...rankingFilters },
+  );
+
+  console.log("userRank", userRank, "userRankLoading", userRankLoading);
 
   const activeFilterCount = useMemo(() => {
     if (mode === "global") return selectedGlobalCountry !== "all" ? 1 : 0;
@@ -187,11 +208,39 @@ function Rank() {
 
       <div className="w-full rounded-md border border-zinc-300 dark:border-zinc-700">
         <div className="flex items-center justify-between gap-4 rounded-t-md border-b border-zinc-300 px-5 py-4 dark:border-zinc-700">
-          <div className="text-md max-w-sm text-center font-medium text-(--color-text-primary) md:text-left md:text-2xl">
+          <div className="text-md max-w-md text-center font-medium text-(--color-text-primary) md:text-left md:text-2xl">
             <span className="font-bold tracking-tight text-orange-500">
               {rankings.length > 0 ? rankings[0].name : "Top Developer"}
             </span>{" "}
             at the top, setting the standard for everyone else.
+            {user?.id && (
+              <div className="mt-2 hidden w-full rounded-xl border border-zinc-300 bg-(--color-bg-secondary) p-2 md:flex md:items-center md:gap-4 dark:border-zinc-700">
+                <div className="flex w-full items-center gap-1 rounded-lg bg-zinc-200 p-3 text-xs dark:bg-zinc-800">
+                  <Users />
+                  <div className="flex flex-col items-center">
+                    {userRankLoading ? ".." : userRank?.total_developers}
+                    <span>Developers</span>
+                  </div>
+                </div>
+                <div className="flex w-full items-center gap-1 rounded-lg bg-orange-500/10 p-3 text-xs font-semibold text-orange-500">
+                  <Trophy />
+                  <div className="flex flex-col items-center">
+                    #{userRankLoading ? "..." : userRank?.rank}
+                    <span>Rank</span>
+                  </div>
+                </div>
+
+                <div className="flex w-full items-center gap-1 rounded-lg bg-blue-500/10 p-3 text-xs text-blue-500">
+                  <TrendingUp />
+                  Top {userRankLoading ? "..." : userRank?.top_percent}%
+                </div>
+
+                <div className="flex w-full items-center gap-1 rounded-lg bg-emerald-500/10 p-3 text-xs text-emerald-500">
+                  <Clock3 />
+                  {userRankLoading ? "..." : userRank?.user_hours} Hours
+                </div>
+              </div>
+            )}
           </div>
           <img
             src={image}

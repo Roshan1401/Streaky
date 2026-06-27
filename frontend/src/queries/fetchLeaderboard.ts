@@ -6,7 +6,7 @@ export async function fetchLeaderboard(range: Range) {
   const { data, error } = await supabase
     .from("sessions")
     .select(
-      "user_id, duration_seconds, language, profiles(name, username, avatar_url, social_links(platform,url))",
+      "user_id, duration_seconds, language, profiles(name, username, avatar_url, is_extension_active, social_links(platform,url))",
     )
     .gte("recorded_at", getStartRange(range));
 
@@ -25,6 +25,7 @@ export async function fetchLeaderboard(range: Range) {
         name: session.profiles?.name,
         username: session.profiles?.username,
         avatar_url: session.profiles?.avatar_url,
+        is_extension_active: session.profiles?.is_extension_active,
         github_url:
           session.profiles?.social_links
             ?.find((link: any) => link.platform === "github")
@@ -49,9 +50,11 @@ export async function fetchLeaderboard(range: Range) {
     .slice(0, 100)
     .map((user, i) => ({
       rank: i + 1,
+      id: user.user_id,
       name: user.name,
       username: user.username,
       avatar_url: user.avatar_url,
+      is_extension_active: user.is_extension_active,
       github_url: user.github_url,
       timeSpent: user.totalSeconds,
       byLanguage: Object.entries(user.byLanguage)

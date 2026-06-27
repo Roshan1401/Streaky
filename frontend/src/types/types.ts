@@ -78,15 +78,24 @@ interface RankUser {
 
 interface LeaderboardUser {
   rank: number;
+  id: string;
   name: string | null;
   username: string | null;
   avatar_url: string;
+  is_extension_active: boolean;
   github_url: string;
   timeSpent: number;
   byLanguage: {
     language: string;
     hours: string;
   }[];
+}
+
+interface UserRank {
+  rank: number;
+  total_developers: number;
+  top_percent: number;
+  user_hours: number;
 }
 
 export type {
@@ -104,4 +113,5 @@ export type {
   Period,
   RankUser,
   LeaderboardUser,
+  UserRank,
 };
