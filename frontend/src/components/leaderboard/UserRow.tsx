@@ -4,6 +4,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { GithubIcon } from "../../assets/Icons";
 import { formatTime } from "../../utils/formatTime";
 import type { LeaderboardUser } from "../../types/types";
+import You from "../You";
 
 interface UserRowProps {
   user: LeaderboardUser;
@@ -23,7 +24,11 @@ function UserRow({
   return (
     <div className="mx-2 my-3 rounded-xl border border-(--color-border) md:m-0 md:rounded-none md:border-0 md:border-t">
       <div
-        className={`flex cursor-pointer items-center gap-2 rounded-xl border-(--color-border) p-3 transition-colors sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:rounded-none md:px-8 md:py-6 lg:px-4 lg:py-5 xl:px-8 ${isCurrentUser ? "bg-orange-400/10" : "hover:bg-(--color-bg-secondary)"}`}
+        className={`flex cursor-pointer items-center gap-2 p-3 transition-colors sm:px-3.5 sm:py-4 md:grid md:grid-cols-12 md:gap-4 md:rounded-none md:px-8 md:py-6 lg:px-4 lg:py-5 xl:px-8 ${
+          isCurrentUser
+            ? "rounded-xl border-l-4 border-l-orange-500 bg-orange-500/5 dark:bg-orange-500/10"
+            : "hover:bg-(--color-bg-secondary)"
+        }`}
       >
         <div className="col-span-1 flex shrink-0">
           <span
@@ -41,24 +46,17 @@ function UserRow({
           </span>
         </div>
 
-        <div className="shrink-0 md:hidden">
-          <div className="size-8 overflow-hidden rounded-full">
-            <img
-              src={user?.avatar_url}
-              className="h-full w-full object-cover"
-              alt="Profile"
-            />
-          </div>
-        </div>
-
         <div className="flex min-w-0 flex-1 items-center justify-between gap-2 md:contents">
           <div className="col-span-5 flex min-w-0 items-center gap-3">
-            <div className="hidden shrink-0 overflow-hidden rounded-full md:block md:size-11">
+            <div className="relative shrink-0 rounded-full">
               <img
                 src={user?.avatar_url}
-                className="h-full w-full object-cover"
+                className="size-8 rounded-full object-cover md:size-11"
                 alt="Profile"
               />
+              {user?.is_extension_active && (
+                <span className="absolute right-0 bottom-0 size-2 rounded-full bg-emerald-400 ring-2 ring-white md:size-2.5 dark:ring-neutral-900" />
+              )}
             </div>
             <div className="min-w-0">
               <Link
@@ -70,7 +68,10 @@ function UserRow({
                     ? `${user.name.slice(0, 15)}...`
                     : user.name}
                 </span>
-                <span className="hidden md:inline">{user.name}</span>
+                <div className="hidden items-center gap-2 md:flex">
+                  <span className="hidden md:inline">{user.name}</span>
+                  {isCurrentUser && <You />}
+                </div>
               </Link>
               {user.github_url && (
                 <Link
