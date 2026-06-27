@@ -72,8 +72,8 @@ export function usePublicProfile(username: string) {
         ? Math.floor((stateResult.data.total_seconds / 3600) * 10) / 10
         : 0;
       const activeDays = dailyData.length;
-      const avgHours = activeDays > 0 ? totalHours / activeDays : 0;
-
+      const avgHours =
+        activeDays > 0 ? Math.floor((totalHours / activeDays) * 10) / 10 : 0;
       setStats(
         stateResult.data
           ? {
