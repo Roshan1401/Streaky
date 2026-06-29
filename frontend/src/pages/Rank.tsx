@@ -10,7 +10,7 @@ import {
   TrendingUp,
   Clock3,
 } from "lucide-react";
-import image from "../assets/image.png";
+import image from "../assets/Streaky.ico";
 import { PeriodSelect } from "../components/Rank/PeriodSelect";
 import { GlobalFilters } from "../components/Rank/GlobalFilters";
 import { RegionFilters } from "../components/Rank/RegionFilters";

@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Leftbar from "./components/layout/Leftbar";
 import Rightbar from "./components/layout/Rightbar/Rightbar";
 import { Outlet } from "react-router-dom";
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div
-      className={`min-h-screen w-full bg-(--color-bg-primary) ${theme ? "dark" : ""}`}
+      className={`relative min-h-screen w-full bg-(--color-bg-primary) ${theme ? "dark" : ""}`}
     >
       <div className="flex min-h-screen w-full">
         <div className="sticky top-0 z-10 h-screen shrink-0 overflow-hidden">

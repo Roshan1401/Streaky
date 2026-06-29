@@ -8,7 +8,7 @@ import { Sun, Moon } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../../store/useUserStore";
 import useProfileStore from "../../store/useProfileStore";
-import logo from "../../assets/image.png";
+import logo from "../../assets/Streaky.ico";
 
 interface Props {
   onThemeToggle: () => void;
@@ -45,7 +45,7 @@ function Navbar({ onThemeToggle, isDarkTheme = false }: Props) {
         <div className="hidden items-center gap-1 border-b border-(--color-border) px-6 py-8 lg:flex">
           <img src={logo} className="h-15 w-14" alt="logo" />
           <h1 className="flex text-2xl font-bold tracking-tight text-(--color-text-primary)">
-            CODE <span className="text-orange-500">PULSE</span>
+            Str <span className="text-orange-500">eaky</span>
           </h1>
         </div>
 
