@@ -17,7 +17,6 @@ export function saveCurrentSession() {
   if (!currentLanguage || sessionStartTime === 0) return;
 
   if (Date.now() - sessionStartTime < 5000) {
-    // don't save sessions shorter than 5 seconds
     return;
   }
 
@@ -54,14 +53,18 @@ export const clearSessions = () => {
 };
 
 export function startTracking(context: vscode.ExtensionContext) {
+  const activeEditor = vscode.window.activeTextEditor;
+  if (activeEditor && activeEditor.document.languageId !== "plaintext") {
+    currentLanguage = activeEditor.document.languageId;
+    sessionStartTime = Date.now();
+    lastActivityTime = Date.now();
+    isIdle = false;
+  }
   const editorListner = vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (!editor) return;
 
     const language = editor.document.languageId;
     if (language === "plaintext") return;
-    vscode.window.showInformationMessage(
-      `Switched to ${editor.document.languageId} file. Tracking session...`,
-    );
 
     saveCurrentSession();
     currentLanguage = language;
