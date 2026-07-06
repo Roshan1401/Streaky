@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { supabase } from "./lib/supabase";
 import { startTracking } from "./tracker";
 import { startSendingSessions } from "./sender";
+import { configPanel } from "./configPanel";
 
 let globalUserId: string | undefined = undefined;
 
@@ -28,52 +29,96 @@ export async function activate(context: vscode.ExtensionContext) {
   const connectAccount = vscode.commands.registerCommand(
     "streaky.configureApiKey",
     async () => {
-      const token = await vscode.window.showInputBox({
-        placeHolder: "Paste your API token ",
-        password: true,
-      });
+      const panel = vscode.window.createWebviewPanel(
+        "streakyConfigureApiKey",
+        "Connect to Streaky",
+        vscode.ViewColumn.One,
+        {
+          enableScripts: true,
+        },
+      );
 
-      if (!token) {
-        vscode.window.showErrorMessage("API token is required.");
-        return;
-      }
+      panel.webview.html = configPanel(panel.webview, context);
 
-      try {
-        const { data, error } = await supabase
-          .from("api_tokens")
-          .select("*")
-          .eq("token", token)
-          .eq("revoked", false)
-          .single();
+      panel.webview.onDidReceiveMessage(
+        async (message) => {
+          if (message.command === "openDashboard") {
+            await vscode.env.openExternal(
+              vscode.Uri.parse("http://localhost:5173/leaderboard"),
+            );
 
-        if (error || !data) {
-          vscode.window.showErrorMessage(
-            "Invalid API token. Please try again.",
-          );
-          return;
-        }
+            return;
+          }
 
-        await context.secrets.store("streaky_api_token", token);
-        await context.secrets.store("streaky_user_id", data.user_id);
+          if (message.command !== "connect") return;
 
-        globalUserId = data.user_id;
+          const token = message.token?.trim();
 
-        const { error: updateError } = await supabase
-          .from("profiles")
-          .update({ is_extension_active: true })
-          .eq("id", data.user_id);
+          if (!token) {
+            vscode.window.showErrorMessage("API token is required.");
+            return;
+          }
 
-        if (updateError)
-          console.error("Failed to update profile:", updateError);
-        startTracking(context);
-        startSendingSessions(context);
+          try {
+            // Tell webview that connection is in progress
+            panel.webview.postMessage({
+              command: "loading",
+            });
 
-        vscode.window.showInformationMessage("API token saved successfully.");
-      } catch (error: unknown) {
-        vscode.window.showErrorMessage(
-          "Failed to connect to Streaky: " + error,
-        );
-      }
+            const { data, error } = await supabase
+              .from("api_tokens")
+              .select("*")
+              .eq("token", token)
+              .eq("revoked", false)
+              .single();
+
+            if (error || !data) {
+              panel.webview.postMessage({
+                command: "error",
+                message: "Invalid API token. Please try again.",
+              });
+
+              return;
+            }
+
+            await context.secrets.store("streaky_api_token", token);
+            await context.secrets.store("streaky_user_id", data.user_id);
+
+            globalUserId = data.user_id;
+
+            const { error: updateError } = await supabase
+              .from("profiles")
+              .update({
+                is_extension_active: true,
+              })
+              .eq("id", data.user_id);
+
+            if (updateError) {
+              console.error("Failed to update profile:", updateError);
+            }
+
+            startTracking(context);
+            startSendingSessions(context);
+
+            panel.webview.postMessage({
+              command: "success",
+            });
+
+            vscode.window.showInformationMessage(
+              "Streaky connected successfully.",
+            );
+          } catch (error: unknown) {
+            panel.webview.postMessage({
+              command: "error",
+              message: "Failed to connect to Streaky.",
+            });
+
+            console.error(error);
+          }
+        },
+        undefined,
+        context.subscriptions,
+      );
     },
   );
 
