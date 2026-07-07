@@ -1,10 +1,15 @@
 {
   "name": "streaky",
   "displayName": "Streaky",
+  "publisher": "streaky",
   "description": "Track coding activity",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.118.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Roshan1401/Streaky.git"
   },
   "categories": [
     "Other"
@@ -57,5 +62,6 @@
   },
   "dependencies": {
     "dotenv": "^17.4.2"
-  }
+  },
+  "icon": "images/icon.png"
 }

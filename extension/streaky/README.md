@@ -1,71 +1,77 @@
-# streaky README
+# Streaky — Coding Activity Tracker
 
-This is the README for your extension "streaky". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+> **Automatically track your coding hours, streaks, and languages. Compete on leaderboards. Build the habit.**
 
 ---
 
-## Following extension guidelines
+Streaky automatically tracks your coding activity while you work in VS Code. See your coding stats, maintain streaks, and compete with other developers.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+---
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## ⚡Features
 
-## Working with Markdown
+- **Automatic streak tracking** — code every day to keep your streak alive
+- **Session tracking** — tracks time spent per language, per day
+- **Leaderboards** — compete globally or filter by country, state, or city
+- **Achievement badges** — earn milestones like "100 Hour Club", "30 Day Streak", "Night Owl"
+- **Language breakdown** — see which languages you code in most
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+---
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+## 🚀 Getting Started
 
-## For more information
+### 1. Install the extension
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+Search for **Streaky** in the VS Code Extensions Marketplace and click Install.
 
-**Enjoy!**
+### 2. Create a free account
+
+Go to [streaky.dev](https://streaky.dev) and sign in with GitHub.
+
+### 3. Get your API token
+
+On your Streaky dashboard, click **Copy API Token** .
+
+### 4. Connect the extension
+
+Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and run:
+
+```
+Streaky: Configure API Key
+```
+
+Paste your API token and click **Connect Account**. That's it — tracking starts immediately.
+
+---
+
+## ⌨️ Commands
+
+| Command                      | Description                                   |
+| ---------------------------- | --------------------------------------------- |
+| `Streaky: Configure API Key` | Open the setup panel and connect your account |
+| `Streaky: Clear API Key`     | Disconnect your account and stop tracking     |
+| `Streaky: Check Token`       | Verify your current connection status         |
+
+---
+
+## Streaky
+
+🔒 Privacy
+
+- Streaky tracks **time and language only**
+- Your API token is stored securely in VS Code's encrypted secret storage
+- You can disconnect at any time using `Streaky: Clear API Key`
+
+---
+
+## ⚙️ Extension Settings
+
+This extension does not add any VS Code settings. Everything is configured through the Command Palette.
+
+---
+
+## 🔗 Links
+
+- Streaky : (https://streaky.dev)
+- Github : (https://github.com/Roshan1401)
+- Twitter : (https://x.com/roshan_patil79)
