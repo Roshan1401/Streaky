@@ -6,29 +6,18 @@ import { saveCurrentSession } from "./tracker";
 export async function startSendingSessions(context: vscode.ExtensionContext) {
   setInterval(
     async () => {
-      vscode.window.showInformationMessage(
-        "Sending coding sessions to Streaky...",
-      );
       const token = await context.secrets.get("streaky_api_token");
       const user_id = await context.secrets.get("streaky_user_id");
 
       if (!token || !user_id) {
-        vscode.window.showErrorMessage(
-          "API token or user ID not found. Please connect your account.",
-        );
-        console.error("API token or user ID not found. Cannot send sessions.");
         return;
       }
       saveCurrentSession();
       const sessions = getSessions();
       if (sessions.length === 0) {
-        vscode.window.showInformationMessage("No coding sessions to send.");
-        console.log("No sessions to send.");
         return;
       }
-      vscode.window.showInformationMessage(
-        `Sessions: ${JSON.stringify(sessions)}`,
-      );
+
       try {
         const { data, error } = await supabase.from("sessions").insert(
           sessions.map((session) => ({
@@ -40,15 +29,7 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
           })),
         );
 
-        vscode.window.showInformationMessage(
-          `Sessions sent to Streaky successfully. Data: ${JSON.stringify(data)}`,
-        );
-
         if (error) {
-          vscode.window.showErrorMessage(
-            "Failed to send sessions: " + JSON.stringify(error),
-          );
-          console.error("Failed to send sessions:", error);
           return;
         }
 
@@ -58,9 +39,6 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
             .update({ last_active: new Date().toISOString() })
             .eq("id", user_id);
         } catch (error) {
-          vscode.window.showErrorMessage(
-            "Failed to update profile last active at : " + error,
-          );
           console.error(
             "Failed to update profile last active profile at:",
             error,
@@ -69,9 +47,6 @@ export async function startSendingSessions(context: vscode.ExtensionContext) {
 
         clearSessions();
       } catch (error) {
-        vscode.window.showErrorMessage(
-          "Failed to send sessions: " + JSON.stringify(error),
-        );
         console.error("Failed to send sessions:", error);
       }
     },

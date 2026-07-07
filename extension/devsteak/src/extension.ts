@@ -1,4 +1,8 @@
 import * as vscode from "vscode";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 import { supabase } from "./lib/supabase";
 import { startTracking } from "./tracker";
 import { startSendingSessions } from "./sender";
@@ -9,10 +13,6 @@ let globalUserId: string | undefined = undefined;
 export async function activate(context: vscode.ExtensionContext) {
   const token = await context.secrets.get("streaky_api_token");
   const user_id = await context.secrets.get("streaky_user_id");
-
-  vscode.window.showInformationMessage(
-    `Streaky extension activated. API token ${token ? "found" : "not found"}. User ID ${user_id ? "found" : "not found"}.`,
-  );
 
   if (token && user_id) {
     globalUserId = user_id;
@@ -55,12 +55,10 @@ export async function activate(context: vscode.ExtensionContext) {
           const token = message.token?.trim();
 
           if (!token) {
-            vscode.window.showErrorMessage("API token is required.");
             return;
           }
 
           try {
-            // Tell webview that connection is in progress
             panel.webview.postMessage({
               command: "loading",
             });
@@ -103,10 +101,6 @@ export async function activate(context: vscode.ExtensionContext) {
             panel.webview.postMessage({
               command: "success",
             });
-
-            vscode.window.showInformationMessage(
-              "Streaky connected successfully.",
-            );
           } catch (error: unknown) {
             panel.webview.postMessage({
               command: "error",

@@ -34,15 +34,9 @@ export function saveCurrentSession() {
   if (existingLanguage) {
     existingLanguage.duration += session.duration;
     existingLanguage.recorded_at = session.recorded_at;
-    vscode.window.showInformationMessage(
-      `Session updated: ${existingLanguage.language} - ${existingLanguage.duration} seconds`,
-    );
   } else {
     sessions.push(session);
     console.log("Session saved:", session);
-    vscode.window.showInformationMessage(
-      `Session saved: ${session.language} - ${session.duration} seconds`,
-    );
   }
   sessionStartTime = 0;
 }
