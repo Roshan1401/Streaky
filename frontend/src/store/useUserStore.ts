@@ -13,6 +13,8 @@ interface UserState {
   logOut: () => Promise<void>;
 }
 
+let authListener: { data: { subscription: { unsubscribe: () => void } } } | null = null;
+
 const useUserStore = create<UserState>((set) => ({
   user: null,
   loading: true,
@@ -34,9 +36,13 @@ const useUserStore = create<UserState>((set) => ({
 
     set({ user: user ?? null, loading: false });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    if (authListener) {
+      authListener.data.subscription.unsubscribe();
+    }
+
+    authListener = supabase.auth.onAuthStateChange((_event, session) => {
       set({ user: session?.user ?? null, loading: false });
-    });
+    }) as typeof authListener;
   },
   logOut: async () => {
     await supabase.auth.signOut();

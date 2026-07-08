@@ -92,10 +92,12 @@ function UserRow({
                       style={floatingStyles}
                       className="pointer-events-none z-50 scale-95 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:scale-100 group-hover:opacity-100"
                     >
+                      {user.username && (
                       <UserHoverCard
                         rank={user.rank}
-                        username={user.username || ""}
+                        username={user.username}
                       />
+                    )}
                     </div>
                   </div>
                 </Link>

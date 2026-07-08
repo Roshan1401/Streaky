@@ -185,13 +185,13 @@ export default function EditModal({
   const [selectedFile, setSelectedFile] = useState<SelectedFiles>(EMPTY_FILES);
 
   useEffect(() => {
+    const prevAvatar = selectedFile.avatar_url?.preview;
+    const prevBanner = selectedFile.banner_url?.preview;
     return () => {
-      if (selectedFile.avatar_url?.preview)
-        URL.revokeObjectURL(selectedFile.avatar_url.preview);
-      if (selectedFile.banner_url?.preview)
-        URL.revokeObjectURL(selectedFile.banner_url.preview);
+      if (prevAvatar) URL.revokeObjectURL(prevAvatar);
+      if (prevBanner) URL.revokeObjectURL(prevBanner);
     };
-  }, [selectedFile]);
+  }, [selectedFile.avatar_url?.file, selectedFile.banner_url?.file]);
 
   useEffect(() => {
     if (!isOpen) return;

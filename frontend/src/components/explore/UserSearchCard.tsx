@@ -45,7 +45,7 @@ function UserSearchCard({
               alt="userAvatar"
               className="size-11 rounded-full object-cover ring-2 ring-orange-400 ring-offset-2 ring-offset-white dark:ring-offset-neutral-900"
             />
-            {!is_extension_active && (
+            {is_extension_active && (
               <span className="absolute right-0 bottom-0 size-2.5 rounded-full bg-emerald-400 ring-2 ring-white dark:ring-neutral-900" />
             )}
           </div>

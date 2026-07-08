@@ -1,5 +1,6 @@
 import { ChartIcon, ClockIcon, FlameIcon } from "../../assets/Icons";
 import { usePublicProfile } from "../../hooks/usePublicProfile";
+import { useNavigate } from "react-router-dom";
 interface Props {
   rank: number;
   username: string;
@@ -7,6 +8,7 @@ interface Props {
 
 function UserHoverCard(props: Props) {
   const { rank, username } = props;
+  const navigate = useNavigate();
 
   const { profile, stats } = usePublicProfile(username);
   const userProfile = profile?.profile;
@@ -77,7 +79,7 @@ function UserHoverCard(props: Props) {
 
         <button
           className="text-md mt-5 w-full cursor-pointer rounded-lg bg-orange-500 py-2 font-semibold text-white transition hover:bg-orange-600"
-          onClick={() => (window.location.href = `/profile/${username}`)}
+          onClick={() => navigate(`/profile/${username}`)}
         >
           View Profile
         </button>

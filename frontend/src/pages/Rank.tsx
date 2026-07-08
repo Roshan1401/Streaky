@@ -122,8 +122,6 @@ function Rank() {
     { mode, period, ...rankingFilters },
   );
 
-  console.log("userRank", userRank, "userRankLoading", userRankLoading);
-
   const activeFilterCount = useMemo(() => {
     if (mode === "global") return selectedGlobalCountry !== "all" ? 1 : 0;
     let count = 0;

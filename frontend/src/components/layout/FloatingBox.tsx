@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from "react";
-import avatar from "../../assets/avatar.png";
 export function FloatingBox({
   containerRef,
   speed = 4,
@@ -11,8 +10,8 @@ export function FloatingBox({
   const physics = useRef({
     posX: Math.random() * 200,
     posY: Math.random() * 200,
-    speedX: 4,
-    speedY: 4,
+    speedX: speed,
+    speedY: speed,
   });
 
   const images = [

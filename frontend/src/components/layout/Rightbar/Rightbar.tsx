@@ -11,12 +11,11 @@ import ActivitySectionSkeleton from "../../../Skeletons/ActivitySectionSkeleton"
 import ActionsSectionSkeleton from "../../../Skeletons/ActionSectionSkeleton";
 
 function Rightbar() {
-  const { user, loading, logOut } = useUserStore();
-  const {
-    loading: profileLoading,
-    setProfile,
-    fetchProfile,
-  } = useProfileStore();
+  const user = useUserStore((state) => state.user);
+  const loading = useUserStore((state) => state.loading);
+  const profileLoading = useProfileStore((state) => state.loading);
+  const setProfile = useProfileStore((state) => state.setProfile);
+  const fetchProfile = useProfileStore((state) => state.fetchProfile);
 
   const navigate = useNavigate();
 

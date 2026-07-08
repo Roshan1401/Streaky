@@ -27,7 +27,7 @@ function ActivitySection() {
   const activityData = [
     {
       title: "Rank",
-      value: loading ? "..." : activity?.rank ? `#${activity.rank}` : "—",
+      value: loading ? "..." : activity?.rank != null ? `#${activity.rank}` : "—",
       description: "Past 24h leaderboard",
     },
     {

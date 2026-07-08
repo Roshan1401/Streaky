@@ -25,7 +25,7 @@ function Searchbar({ query, setQuery, setShowResults }: SearchbarProps) {
         value={query}
         onChange={handleChange}
         onFocus={() => setShowResults(true)}
-        onBlur={() => setShowResults(false)}
+        onBlur={() => setTimeout(() => setShowResults(false), 200)}
         placeholder="Search"
         className="flex-1 border-none bg-transparent text-sm text-(--color-text-primary) outline-none"
       />

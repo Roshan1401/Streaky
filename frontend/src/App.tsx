@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Leftbar from "./components/layout/Leftbar";
 import Rightbar from "./components/layout/Rightbar/Rightbar";
 import { Outlet } from "react-router-dom";
@@ -10,12 +10,10 @@ function App() {
   const [theme, setTheme] = useState<boolean>(() => {
     return localStorage.getItem("theme") === "dark";
   });
-  const user = useUserStore((state) => state.user);
   const initialize = useUserStore((state) => state.initialize);
 
   useEffect(() => {
-    console.log("Initializing user session...", user);
-    initialize();
+    initialize().catch(console.error);
   }, [initialize]);
 
   function toggleTheme() {

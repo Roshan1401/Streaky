@@ -11,8 +11,14 @@ import { configPanel } from "./configPanel";
 let globalUserId: string | undefined = undefined;
 
 export async function activate(context: vscode.ExtensionContext) {
-  const token = await context.secrets.get("streaky_api_token");
-  const user_id = await context.secrets.get("streaky_user_id");
+  let token: string | undefined;
+  let user_id: string | undefined;
+  try {
+    token = await context.secrets.get("streaky_api_token");
+    user_id = await context.secrets.get("streaky_user_id");
+  } catch (e) {
+    console.error("Failed to read secrets:", e);
+  }
 
   if (token && user_id) {
     globalUserId = user_id;
@@ -140,9 +146,6 @@ export async function activate(context: vscode.ExtensionContext) {
       const token = await context.secrets.get("streaky_api_token");
       const user_id = await context.secrets.get("streaky_user_id");
 
-      console.log("Token:", token);
-      console.log("User ID:", user_id);
-
       vscode.window.showInformationMessage(
         `Token: ${token ? "✅ Found" : "❌ Not found"} | User ID: ${user_id ? "✅ Found" : "❌ Not found"}`,
       );
@@ -155,8 +158,12 @@ export async function activate(context: vscode.ExtensionContext) {
 export async function deactivate() {
   if (!globalUserId) return;
 
-  await supabase
-    .from("profiles")
-    .update({ is_extension_active: false })
-    .eq("id", globalUserId);
+  try {
+    await supabase
+      .from("profiles")
+      .update({ is_extension_active: false })
+      .eq("id", globalUserId);
+  } catch (e) {
+    console.error("Failed to deactivate profile:", e);
+  }
 }

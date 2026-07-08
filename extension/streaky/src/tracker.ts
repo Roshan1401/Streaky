@@ -54,7 +54,7 @@ export function startTracking(context: vscode.ExtensionContext) {
     lastActivityTime = Date.now();
     isIdle = false;
   }
-  const editorListner = vscode.window.onDidChangeActiveTextEditor((editor) => {
+  const editorListener = vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (!editor) return;
 
     const language = editor.document.languageId;
@@ -67,7 +67,7 @@ export function startTracking(context: vscode.ExtensionContext) {
     isIdle = false;
   });
 
-  const documentListner = vscode.workspace.onDidChangeTextDocument(() => {
+  const documentListener = vscode.workspace.onDidChangeTextDocument(() => {
     if (!currentLanguage) return;
 
     lastActivityTime = Date.now();
@@ -87,7 +87,7 @@ export function startTracking(context: vscode.ExtensionContext) {
     }
   }, 30 * 1000);
 
-  context.subscriptions.push(editorListner, documentListner, {
+  context.subscriptions.push(editorListener, documentListener, {
     dispose: () => clearInterval(idleInterval),
   });
 }

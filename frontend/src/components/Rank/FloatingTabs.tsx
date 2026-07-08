@@ -24,10 +24,6 @@ export function FloatingTabs({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
-    updateIndicator();
-  }, [value]);
-
-  const updateIndicator = () => {
     if (containerRef.current) {
       const activeButton =
         containerRef.current.querySelector<HTMLButtonElement>(
@@ -44,7 +40,7 @@ export function FloatingTabs({
         });
       }
     }
-  };
+  }, [value]);
 
   const handleTabChange = (value: string) => {
     onChange?.(value);

@@ -10,8 +10,11 @@ export async function fetchLeaderboard(range: Range) {
     )
     .gte("recorded_at", getStartRange(range));
 
-  if (error || data.length === 0) {
+  if (error) {
     console.error("Error fetching leaderboard data: ", error);
+    return [];
+  }
+  if (!data || data.length === 0) {
     return [];
   }
 

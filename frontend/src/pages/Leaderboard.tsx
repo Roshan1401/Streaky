@@ -55,7 +55,7 @@ function Leaderboard() {
     if (profileLoading) return;
 
     const rankFromLeaderboard = currentUser?.rank ?? null;
-    if (rankFromLeaderboard) {
+    if (rankFromLeaderboard != null) {
       setUserRank(rankFromLeaderboard);
       return;
     }

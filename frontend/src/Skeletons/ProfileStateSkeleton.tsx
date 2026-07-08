@@ -8,7 +8,7 @@ function ProfileStateSkeleton() {
         </div>
       </div>
 
-      <div className="${ isTransitioning my-10 mb-28 flex h-auto w-full items-center justify-center transition-all duration-200 ease-out lg:mb-10">
+      <div className="my-10 mb-28 flex h-auto w-full items-center justify-center transition-all duration-200 ease-out lg:mb-10">
         <div className="skeleton h-110 w-full rounded-xl"></div>
       </div>
     </div>

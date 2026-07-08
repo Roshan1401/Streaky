@@ -46,7 +46,10 @@ export async function fetchActivity(
       .eq("user_id", userId)
       .single();
 
-    if (streakError) throw streakError;
+    if (streakError) {
+      console.error("Error fetching streak data: ", streakError);
+      return { rank, streak: 0, timeSpent };
+    }
     return {
       rank,
       streak: streakData ? streakData.current_streak : 0,

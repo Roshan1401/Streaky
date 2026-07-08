@@ -52,7 +52,7 @@ function List({
           {hours}h
         </span>
         <span className="text-xs font-medium text-(--color-text-secondary) sm:text-sm">
-          {((hours / totalHours) * 100).toFixed(1)}%
+          {totalHours > 0 ? ((hours / totalHours) * 100).toFixed(1) : "0.0"}%
         </span>
       </div>
     </div>

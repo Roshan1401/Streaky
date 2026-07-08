@@ -2,7 +2,7 @@ interface Props {
   className?: string;
 }
 
-function Instagram(props: Props) {
+function InstagramIcon(props: Props) {
   const { className } = props;
 
   return (
@@ -22,4 +22,4 @@ function Instagram(props: Props) {
   );
 }
 
-export default Instagram;
+export default InstagramIcon;
