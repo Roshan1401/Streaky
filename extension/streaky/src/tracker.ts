@@ -81,13 +81,48 @@ export function startTracking(context: vscode.ExtensionContext) {
   const idleInterval = setInterval(() => {
     const idleTime = Date.now() - lastActivityTime;
 
-    if (!isIdle && idleTime > 2 * 60 * 1000) {
+    if (!isIdle && idleTime > 90 * 1000) {
       isIdle = true;
       saveCurrentSession();
     }
   }, 30 * 1000);
 
-  context.subscriptions.push(editorListener, documentListener, {
-    dispose: () => clearInterval(idleInterval),
+  const selectionListener = vscode.window.onDidChangeTextEditorSelection(() => {
+    if (!currentLanguage) return;
+
+    lastActivityTime = Date.now();
+
+    if (isIdle) {
+      isIdle = false;
+      sessionStartTime = Date.now();
+    }
   });
+
+  const windowListener = vscode.window.onDidChangeWindowState((state) => {
+    if (!currentLanguage) return;
+
+    if (!state.focused) {
+      if (!isIdle) {
+        isIdle = true;
+        saveCurrentSession();
+      }
+    } else {
+      lastActivityTime = Date.now();
+
+      if (isIdle) {
+        isIdle = false;
+        sessionStartTime = Date.now();
+      }
+    }
+  });
+
+  context.subscriptions.push(
+    editorListener,
+    documentListener,
+    selectionListener,
+    windowListener,
+    {
+      dispose: () => clearInterval(idleInterval),
+    },
+  );
 }
