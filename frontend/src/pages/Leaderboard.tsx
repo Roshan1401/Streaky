@@ -111,27 +111,41 @@ function Leaderboard() {
                   <div className="col-span-3 text-right">Top Languages</div>
                 </div>
                 <div className="relative space-y-1">
-                  {currentUser && (
-                    <UserRow
-                      user={currentUser}
-                      index={userRank ? userRank - 1 : 0}
-                      isCurrentUser={true}
-                      openDropdown={openDropdown}
-                      setOpenDropdown={setOpenDropdown}
-                    />
+                  {leaderboardData.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center gap-2 px-8 py-16 text-center">
+                      <span className="text-4xl">🏆</span>
+                      <p className="text-lg font-semibold text-(--color-text-primary)">
+                        No developers yet
+                      </p>
+                      <p className="text-sm text-(--color-text-secondary)">
+                        No coding activity recorded for this time range. Start coding to claim the top spot!
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      {currentUser && (
+                        <UserRow
+                          user={currentUser}
+                          index={userRank ? userRank - 1 : 0}
+                          isCurrentUser={true}
+                          openDropdown={openDropdown}
+                          setOpenDropdown={setOpenDropdown}
+                        />
+                      )}
+                      {otherUsers.map((user: LeaderboardUser, index: number) => {
+                        return (
+                          <UserRow
+                            user={user}
+                            index={index}
+                            key={user.username || index}
+                            isCurrentUser={false}
+                            openDropdown={openDropdown}
+                            setOpenDropdown={setOpenDropdown}
+                          />
+                        );
+                      })}
+                    </>
                   )}
-                  {otherUsers.map((user: LeaderboardUser, index: number) => {
-                    return (
-                      <UserRow
-                        user={user}
-                        index={index}
-                        key={user.username || index}
-                        isCurrentUser={false}
-                        openDropdown={openDropdown}
-                        setOpenDropdown={setOpenDropdown}
-                      />
-                    );
-                  })}
                 </div>
               </div>
             </div>
