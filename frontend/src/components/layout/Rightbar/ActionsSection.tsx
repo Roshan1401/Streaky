@@ -4,7 +4,7 @@ import { createApiToken } from "../../../api/token";
 import useUserStore from "../../../store/useUserStore";
 import { useExtensionStatus } from "../../../hooks/useExtenstionStatus";
 import { ToastContainer, toast } from "react-toastify";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
 function ActionsSection() {
@@ -14,6 +14,10 @@ function ActionsSection() {
   const setToken = useTokenStore((state) => state.setToken);
 
   const [loadingConnection, setLoadingConnection] = useState(false);
+  const mountedRef = useRef(true);
+  useEffect(() => {
+    return () => { mountedRef.current = false; };
+  }, []);
   const handleCopyToken = async () => {
     try {
       if (!user) return;
@@ -86,8 +90,8 @@ function ActionsSection() {
           className="mt-3 w-full cursor-pointer rounded-md border border-(--color-border) bg-(--color-bg-primary) px-3 py-2 text-xs font-medium text-(--color-text-primary) transition-colors hover:border-orange-500/50 active:border-orange-500 active:bg-orange-500/20 active:text-orange-500 xl:text-sm"
           onClick={async () => {
             setLoadingConnection(true);
-            // Simulate a delay for the connection test
             await new Promise((resolve) => setTimeout(resolve, 1000));
+            if (!mountedRef.current) return;
             fetchStatus();
             setLoadingConnection(false);
           }}
