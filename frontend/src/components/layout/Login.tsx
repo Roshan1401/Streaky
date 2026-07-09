@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { GithubIcon } from "../../assets/Icons";
 import image from "../../assets/devstreakLogo.svg";
+import bgImage from "../../assets/BG1.jpg";
 import { supabase } from "../../lib/supabase.ts";
 import { FloatingBox } from "../../components/layout/FloatingBox.tsx";
 const Login = () => {
@@ -27,7 +28,8 @@ const Login = () => {
   return (
     <div
       ref={containerRef}
-      className="relative grid min-h-screen w-screen grid-cols-2 flex-col items-center justify-center bg-[url('/src/assets/BG1.jpg')] bg-cover bg-center"
+      className="relative grid min-h-screen w-screen grid-cols-2 flex-col items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgImage})` }}
     >
       <div className="h-full w-full">
         <div className="flex h-full w-full items-center justify-center gap-6">
