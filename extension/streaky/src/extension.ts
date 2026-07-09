@@ -50,7 +50,7 @@ export async function activate(context: vscode.ExtensionContext) {
         async (message) => {
           if (message.command === "openDashboard") {
             await vscode.env.openExternal(
-              vscode.Uri.parse("http://localhost:5173/leaderboard"),
+              vscode.Uri.parse("https://frontend-xxx.vercel.app/leaderboard"),
             );
 
             return;
