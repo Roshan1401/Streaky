@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Flame, Medal, MapPin } from "lucide-react";
+import { Flame, MapPin } from "lucide-react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { GithubIcon } from "../../assets/Icons";
 import type { RankUser } from "../../types/types";

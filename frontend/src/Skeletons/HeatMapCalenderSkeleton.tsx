@@ -1,8 +1,5 @@
 // HeatMapCalenderSkeleton.tsx
 function HeatMapCalenderSkeleton() {
-  const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const weekCount = 53;
-
   return (
     <div className="px-4 xl:px-10 ">
       <div className="my-4 rounded-xl border border-(--color-border) bg-(--color-surface)">

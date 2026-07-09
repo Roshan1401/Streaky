@@ -1,16 +1,14 @@
-import { useEffect, useState, useRef } from "react";
-import { GithubIcon, TwitterIcon } from "../../assets/Icons";
+import { useRef } from "react";
+import { GithubIcon } from "../../assets/Icons";
 import image from "../../assets/devstreakLogo.svg";
 import { supabase } from "../../lib/supabase.ts";
 import { FloatingBox } from "../../components/layout/FloatingBox.tsx";
 const Login = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [status, setStatus] = useState<string | null>(null);
 
   const handleLogin = async (provider: "github" | "twitter") => {
-    setStatus(provider);
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
           redirectTo: `${window.location.origin}/leaderboard`,
@@ -19,12 +17,10 @@ const Login = () => {
 
       if (error) {
         console.error("OAuth error:", error.message);
-        setStatus(null);
         return;
       }
     } catch (error) {
       console.error("OAuth exception:", error);
-      setStatus(null);
     }
   };
 
