@@ -7,6 +7,7 @@ import Leaderboard from "./pages/Leaderboard.tsx";
 import Explore from "./pages/Explore.tsx";
 import Rank from "./pages/Rank.tsx";
 import Login from "./components/layout/Login.tsx";
+import GetStarted from "./pages/GetStarted/GetStarted.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="profile/:username" element={<Profile />} />
         <Route path="explore" element={<Explore />} />
         <Route path="rank" element={<Rank />} />
+        <Route path="get-started" element={<GetStarted />} />
       </Route>
       <Route path="/login" element={<Login />}></Route>
     </Routes>
