@@ -26,7 +26,7 @@ Search for **Streaky** in the VS Code Extensions Marketplace and click Install.
 
 ### 2. Create a free account
 
-Go to [streaky.dev](https://streaky.dev) and sign in with GitHub.
+Go to [streaky.dev](https://streakyu.vercel.app) and sign in with GitHub.
 
 ### 3. Get your API token
 
@@ -72,6 +72,6 @@ This extension does not add any VS Code settings. Everything is configured throu
 
 ## 🔗 Links
 
-- Streaky : (https://streaky.dev)
+- Streaky : (https://streakyu.vercel.app)
 - Github : (https://github.com/Roshan1401)
 - Twitter : (https://x.com/roshan_patil79)

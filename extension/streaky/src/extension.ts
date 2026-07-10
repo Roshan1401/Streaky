@@ -50,7 +50,7 @@ export async function activate(context: vscode.ExtensionContext) {
         async (message) => {
           if (message.command === "openDashboard") {
             await vscode.env.openExternal(
-              vscode.Uri.parse("https://streaky-tawny.vercel.app/leaderboard"),
+              vscode.Uri.parse("https://streakyu.vercel.app/leaderboard"),
             );
 
             return;
