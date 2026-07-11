@@ -10,7 +10,7 @@ import {
   TrendingUp,
   Clock3,
 } from "lucide-react";
-import image from "../assets/Streaky.ico";
+import logo from "../assets/streaky.svg";
 import { PeriodSelect } from "../components/Rank/PeriodSelect";
 import { GlobalFilters } from "../components/Rank/GlobalFilters";
 import { RegionFilters } from "../components/Rank/RegionFilters";
@@ -241,8 +241,8 @@ function Rank() {
             )}
           </div>
           <img
-            src={image}
-            className="h-14 w-13 shrink-0 md:h-20 md:w-19"
+            src={logo}
+            className="h-10 w-10 shrink-0 md:h-20 md:w-19"
             alt="Rank"
           />
         </div>

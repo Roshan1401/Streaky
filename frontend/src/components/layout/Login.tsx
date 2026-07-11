@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { GithubIcon } from "../../assets/Icons";
-import image from "../../assets/devstreakLogo.svg";
+import image from "../../assets/streaky.svg";
 import bgImage from "../../assets/images/BG1.jpg";
 import { supabase } from "../../lib/supabase.ts";
 import { FloatingBox } from "../../components/layout/FloatingBox.tsx";
@@ -36,13 +36,13 @@ const Login = () => {
           <img
             src={image}
             alt="Logo"
-            className="h-40 w-40 opacity-90 xl:h-80 xl:w-80"
+            className="h-40 w-40 opacity-50 xl:h-50 xl:w-50"
             style={{
               filter:
                 "invert(100%) sepia(0%) saturate(0%) brightness(200%) contrast(100%)",
             }}
           />
-          <span className="bg-linear-to-r from-orange-400 to-orange-200 bg-clip-text text-[80px] leading-none font-extrabold tracking-tight text-transparent xl:text-[140px]">
+          <span className="bg-linear-to-r from-orange-400 to-orange-200 bg-clip-text text-[80px] leading-none font-extrabold tracking-tight text-transparent xl:text-[130px]">
             Streaky
           </span>
         </div>
@@ -52,7 +52,7 @@ const Login = () => {
           <img
             src={image}
             alt="Logo"
-            className="h-16 w-16 opacity-90 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-36 lg:w-36"
+            className="h-16 w-16 opacity-90 sm:h-20 sm:w-20 md:h-24 md:w-24"
             style={{
               filter:
                 "invert(100%) sepia(0%) saturate(0%) brightness(200%) contrast(100%)",
@@ -62,13 +62,13 @@ const Login = () => {
             <span className="font-display text-2xl tracking-wide sm:text-3xl md:text-4xl lg:text-5xl">
               Code every day
             </span>
-            <span className="font-display bg-linear-to-r from-orange-300 to-white bg-clip-text text-2xl tracking-wide text-transparent sm:text-3xl md:text-4xl lg:text-5xl">
+            <span className="font-display text-2xl tracking-wide sm:text-3xl md:text-4xl lg:text-5xl">
               Track your activity.
             </span>
           </div>
           <button
             onClick={() => handleLogin("github")}
-            className="mt-12 flex w-full cursor-pointer items-center gap-3 rounded-full bg-white px-6 py-3 font-sans text-base font-semibold tracking-wide text-neutral-900 shadow-lg transition-all duration-200 hover:bg-neutral-100 hover:shadow-xl active:scale-[0.98] sm:mt-14 sm:w-[380px] sm:text-lg md:mt-16 md:w-[420px] md:py-3.5 lg:w-[400px]"
+            className="mt-7 flex w-full cursor-pointer items-center gap-3 rounded-full bg-white px-6 py-3 font-sans text-base font-semibold tracking-wide text-neutral-900 shadow-lg transition-all duration-200 hover:bg-neutral-100 hover:shadow-xl active:scale-[0.98] sm:mt-14 sm:w-[380px] sm:text-lg md:mt-10 md:w-[420px] md:py-3.5 lg:w-[400px]"
           >
             <GithubIcon className="size-5 sm:size-6" />
             <span className="w-full text-center">Sign in with GitHub</span>
